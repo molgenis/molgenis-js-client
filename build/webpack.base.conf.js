@@ -1,5 +1,4 @@
 var path = require('path')
-var utils = require('./utils')
 var config = require('../config')
 
 function resolve (dir) {
@@ -7,7 +6,9 @@ function resolve (dir) {
 }
 
 module.exports = {
-  entry: resolve('src') + '/main.js',
+  entry: {
+    'molgenis-api-client': resolve('src') + '/molgenis-api-client.js'
+  },
   devtool: 'source-map',
   output: {
     path: config.build.assetsRoot,
@@ -23,7 +24,7 @@ module.exports = {
       resolve('node_modules')
     ],
     alias: {
-      'src': resolve('src'),
+      'src': resolve('src')
     }
   },
   module: {
@@ -31,7 +32,7 @@ module.exports = {
       {
         test: /\.(js)$/,
         loader: 'eslint-loader',
-        enforce: "pre",
+        enforce: 'pre',
         include: [resolve('src'), resolve('test')],
         options: {
           formatter: require('eslint-friendly-formatter')
