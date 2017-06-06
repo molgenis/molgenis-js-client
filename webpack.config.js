@@ -1,12 +1,10 @@
 const path = require('path')
 module.exports = {
   context: path.resolve(__dirname, './src'),
-  entry: {
-    'molgenis-api-client': './molgenis-api-client.js'
-  },
+  entry: './molgenis-api-client.js',
   output: {
-    path: path.resolve(__dirname, './dist'),
-    filename: '[name].bundle.js'
+    path: __dirname,
+    filename: '[name].js'
   },
   module: {
     rules: [{
