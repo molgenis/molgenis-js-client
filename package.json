@@ -1,0 +1,58 @@
+{
+  "name": "molgenis-api-client",
+  "version": "1.0.1",
+  "description": "A javascript client for the molgenis api ( v1 and v2)",
+  "main": "main.js",
+  "scripts": {
+    "build": "node build/build.js",
+    "test": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
+    "lint": "eslint .js src"
+  },
+  "repository": "molgenis-api-client",
+  "keywords": [
+    "molgenis",
+    "api",
+    "rest",
+    "fetch"
+  ],
+  "author": "Genomics Coordination Center",
+  "license": "LGPL-3.0",
+  "dependencies": {
+    "isomorphic-fetch": "^2.2.1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.22.1",
+    "babel-eslint": "^7.1.1",
+    "babel-loader": "^6.2.10",
+    "babel-plugin-istanbul": "^3.1.2",
+    "babel-plugin-transform-flow-comments": "^6.22.0",
+    "babel-plugin-transform-runtime": "^6.22.0",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-flow": "^6.23.0",
+    "babel-preset-stage-2": "^6.22.0",
+    "babel-register": "^6.22.0",
+    "chalk": "^1.1.3",
+    "eslint": "^3.19.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-friendly-formatter": "^3.0.0",
+    "eslint-loader": "^1.7.1",
+    "eslint-plugin-html": "^2.0.3",
+    "eslint-plugin-import": "^2.3.0",
+    "eslint-plugin-node": "^5.0.0",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1",
+    "extract-text-webpack-plugin": "^2.1.0",
+    "html-webpack-plugin": "^2.28.0",
+    "ora": "^1.2.0",
+    "shelljs": "^0.7.7",
+    "webpack": "^2.2.1",
+    "webpack-bundle-analyzer": "^2.2.1",
+    "webpack-dev-middleware": "^1.10.0",
+    "webpack-hot-middleware": "^2.16.1",
+    "webpack-merge": "^2.6.1"
+  },
+  "engines": {
+    "node": ">= 4.0.0",
+    "npm": ">= 3.0.0"
+  }
+}
