@@ -2,7 +2,7 @@
   "name": "molgenis-api-client",
   "version": "1.0.6",
   "description": "A javascript client for the molgenis api ( v1 and v2)",
-  "main": "dist/app.bundle.js",
+  "main": "dist/main.bundle.js",
   "scripts": {
     "build": "WEBPACK_ENV=build webpack",
     "test": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
