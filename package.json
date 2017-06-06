@@ -4,7 +4,7 @@
   "description": "A javascript client for the molgenis api ( v1 and v2)",
   "main": "dist/js/molgenis-api-client.js",
   "scripts": {
-    "build": "node build/build.js",
+    "build": "WEBPACK_ENV=build webpack",
     "test": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
     "lint": "eslint .js src"
   },
