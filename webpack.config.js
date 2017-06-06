@@ -3,8 +3,10 @@ module.exports = {
   context: path.resolve(__dirname, './src'),
   entry: './molgenis-api-client.js',
   output: {
-    path: __dirname,
-    filename: '[name].js'
+    path: path.resolve(__dirname, './dist'),
+    filename: '[name].bundle.js',
+    libraryTarget: 'umd',
+    library: 'molgenis-api-client'
   },
   module: {
     rules: [{
