@@ -1,11 +1,24 @@
+// @flow
 import fetch from 'isomorphic-fetch'
+
+export type Server = {
+  apiUrl: string
+}
+
+export type Settings = {
+  method?: string,
+  body?: any,
+  headers?: any,
+  credentials?: string,
+  mode?: string
+}
 
 const jsonContentHeaders = {
   'Accept': 'application/json',
   'Content-Type': 'application/json'
 }
 
-function fetchAndHandleResponse (url, settings) {
+function fetchAndHandleResponse (url: string, settings: Settings) {
   return fetch(url, settings)
     .then(response => response.json()
       .then(json => ({json, response})))
@@ -17,8 +30,8 @@ function fetchAndHandleResponse (url, settings) {
     })
 }
 
-export function submitForm (url, method, formData, token) {
-  const settings = {
+export function submitForm (url: string, method: string, formData: any, token: ?string) {
+  const settings: Settings = {
     method: method,
     body: formData
   }
@@ -33,9 +46,9 @@ export function submitForm (url, method, formData, token) {
   return fetchAndHandleResponse(url, settings)
 }
 
-function callApi (server, uri, method, token) {
+function callApi (server: Server, uri: string, method: string, token: ?string) {
   const url = server.apiUrl + uri
-  const settings = {
+  const settings: Settings = {
     method: method,
     headers: jsonContentHeaders
   }
@@ -51,11 +64,11 @@ function callApi (server, uri, method, token) {
   return fetchAndHandleResponse(url, settings)
 }
 
-export function get (server, uri, token) {
+export function get (server: Server, uri: string, token: ?string) {
   return callApi(server, uri, 'get', token)
 }
 
-export function login (username, password) {
+export function login (username: string, password: string) {
   return fetch('/api/v1/login', {
     method: 'post',
     headers: jsonContentHeaders,
@@ -63,7 +76,7 @@ export function login (username, password) {
   }).then(response => response.json())
 }
 
-export function logout (server, token) {
+export function logout (server: Server, token: string) {
   return fetch(server.apiUrl + 'v1/logout', {
     method: 'get',
     headers: {...jsonContentHeaders, 'x-molgenis-token': token}
