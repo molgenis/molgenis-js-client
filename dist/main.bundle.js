@@ -718,19 +718,19 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _stringify = __webpack_require__(34);
-
-var _stringify2 = _interopRequireDefault(_stringify);
-
 var _extends2 = __webpack_require__(36);
 
 var _extends3 = _interopRequireDefault(_extends2);
+
+var _stringify = __webpack_require__(34);
+
+var _stringify2 = _interopRequireDefault(_stringify);
 
 var _promise = __webpack_require__(35);
 
 var _promise2 = _interopRequireDefault(_promise);
 
-exports.submitForm = submitForm;
+exports.post = post;
 exports.get = get;
 exports.login = login;
 exports.logout = logout;
@@ -746,34 +746,38 @@ var jsonContentHeaders = {
   'Content-Type': 'application/json'
 };
 
-function fetchAndHandleResponse(url, settings) {
+function fetchForStatus(url, settings) {
   return (0, _isomorphicFetch2.default)(url, settings).then(function (response) {
-    return response.json().then(function (json) {
-      return { json: json, response: response };
-    });
-  }).then(function (_ref) {
-    var json = _ref.json,
-        response = _ref.response;
-
-    if (!response.ok) {
+    if (response.ok) return response;else return response.json().then(function (json) {
       return _promise2.default.reject(json);
-    }
-    return json;
+    });
   });
 }
 
-function submitForm(url, method, formData, token) {
+function fetchAndHandleResponse(url, settings) {
+  return (0, _isomorphicFetch2.default)(url, settings).then(function (response) {
+    return response.json().then(function (json) {
+      return response.ok ? json : _promise2.default.reject(json);
+    });
+  });
+}
+
+function post(server, uri, data, token) {
+  var url = server.apiUrl + uri;
   var settings = {
-    method: method,
-    body: formData
+    method: 'post',
+    headers: jsonContentHeaders,
+    body: (0, _stringify2.default)(data)
   };
+
   if (token) {
     settings.headers = (0, _extends3.default)({}, settings.headers, { 'x-molgenis-token': token });
     settings.mode = 'cors';
   } else {
     settings.credentials = 'same-origin';
   }
-  return fetchAndHandleResponse(url, settings);
+
+  return fetchForStatus(url, settings);
 }
 
 function callApi(server, uri, method, token) {

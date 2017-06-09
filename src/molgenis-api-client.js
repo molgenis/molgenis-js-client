@@ -18,23 +18,28 @@ const jsonContentHeaders = {
   'Content-Type': 'application/json'
 }
 
-function fetchAndHandleResponse (url: string, settings: Settings) {
-  return fetch(url, settings)
-    .then(response => response.json()
-      .then(json => ({json, response})))
-    .then(({json, response}) => {
-      if (!response.ok) {
-        return Promise.reject(json)
-      }
-      return json
-    })
+function fetchForStatus (url: string, settings:Settings) {
+  return fetch(url, settings).then(response => {
+    if (response.ok) return response
+    else return response.json().then(json => Promise.reject(json))
+  })
 }
 
-export function submitForm (url: string, method: string, formData: any, token: ?string) {
+function fetchAndHandleResponse (url: string, settings:Settings) {
+  return fetch(url, settings)
+    .then(response => response.json()
+      .then(json => response.ok ? json : Promise.reject(json))
+    )
+}
+
+export function post (server: Server, uri: string, data:any, token: ?string) {
+  const url = server.apiUrl + uri
   const settings: Settings = {
-    method: method,
-    body: formData
+    method: 'post',
+    headers: jsonContentHeaders,
+    body: JSON.stringify(data)
   }
+
   if (token) {
     // for cross-origin requests, use a molgenis token
     settings.headers = {...settings.headers, 'x-molgenis-token': token}
@@ -43,7 +48,8 @@ export function submitForm (url: string, method: string, formData: any, token: ?
     // for same origin requests, use the JSESSIONID cookie
     settings.credentials = 'same-origin'
   }
-  return fetchAndHandleResponse(url, settings)
+
+  return fetchForStatus(url, settings)
 }
 
 function callApi (server: Server, uri: string, method: string, token: ?string) {
