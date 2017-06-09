@@ -9,7 +9,7 @@
     "test": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
     "lint": "eslint .js src"
   },
-  "repository": "molgenis-api-client",
+  "repository": "git@github.com:molgenis/molgenis-api-client.git",
   "keywords": [
     "molgenis",
     "api",
