@@ -731,6 +731,7 @@ var _promise = __webpack_require__(35);
 var _promise2 = _interopRequireDefault(_promise);
 
 exports.post = post;
+exports.callApi = callApi;
 exports.get = get;
 exports.login = login;
 exports.logout = logout;
