@@ -52,7 +52,7 @@ export function post (server: Server, uri: string, data:any, token: ?string) {
   return fetchForStatus(url, settings)
 }
 
-function callApi (server: Server, uri: string, method: string, token: ?string) {
+export function callApi (server: Server, uri: string, method: string, token: ?string) {
   const url = server.apiUrl + uri
   const settings: Settings = {
     method: method,
