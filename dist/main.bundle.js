@@ -17774,7 +17774,7 @@ var get = exports.get = function get(url, options_) {
   return (0, _isomorphicFetch2.default)(url, options).then(function (response) {
     if (response.headers.get('content-type') === 'application/json') {
       return response.json().then(function (json) {
-        return response.ok ? json : _promise2.default.reject(json);
+        return response.ok ? json : _promise2.default.reject(json.errors[0].message);
       });
     } else {
       return response.ok ? response : _promise2.default.reject(response);
@@ -17787,7 +17787,7 @@ var post = exports.post = function post(url, options_) {
   return (0, _isomorphicFetch2.default)(url, options).then(function (response) {
     if (response.headers.get('content-type') === 'application/json') {
       return response.json().then(function (json) {
-        return response.ok ? json : _promise2.default.reject(json);
+        return response.ok ? json : _promise2.default.reject(json.errors[0].message);
       });
     } else {
       return response.ok ? response : _promise2.default.reject(response);
@@ -17800,7 +17800,7 @@ var delete_ = exports.delete_ = function delete_(url, options_) {
   return (0, _isomorphicFetch2.default)(url, options).then(function (response) {
     if (response.headers.get('content-type') === 'application/json') {
       return response.json().then(function (json) {
-        return response.ok ? json : _promise2.default.reject(json);
+        return response.ok ? json : _promise2.default.reject(json.errors[0].message);
       });
     } else {
       return response.ok ? response : _promise2.default.reject(response);

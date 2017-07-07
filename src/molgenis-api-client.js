@@ -35,7 +35,7 @@ export const get = (url: string, options_: ?Options) => {
   const options: Options = merge({method: GET}, defaultOptions, options_)
   return fetch(url, options).then(response => {
     if (response.headers.get('content-type') === 'application/json') {
-      return response.json().then(json => response.ok ? json : Promise.reject(json))
+      return response.json().then(json => response.ok ? json : Promise.reject(json.errors[0].message))
     } else {
       return response.ok ? response : Promise.reject(response)
     }
@@ -53,7 +53,7 @@ export const post = (url: string, options_: ?Options) => {
   const options: Options = merge({method: POST}, defaultOptions, options_)
   return fetch(url, options).then(response => {
     if (response.headers.get('content-type') === 'application/json') {
-      return response.json().then(json => response.ok ? json : Promise.reject(json))
+      return response.json().then(json => response.ok ? json : Promise.reject(json.errors[0].message))
     } else {
       return response.ok ? response : Promise.reject(response)
     }
@@ -71,7 +71,7 @@ export const delete_ = (url: string, options_: ?Options) => {
   const options: Options = merge({method: DELETE}, defaultOptions, options_)
   return fetch(url, options).then(response => {
     if (response.headers.get('content-type') === 'application/json') {
-      return response.json().then(json => response.ok ? json : Promise.reject(json))
+      return response.json().then(json => response.ok ? json : Promise.reject(json.errors[0].message))
     } else {
       return response.ok ? response : Promise.reject(response)
     }
