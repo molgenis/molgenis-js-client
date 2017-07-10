@@ -17748,9 +17748,7 @@ var _promise = __webpack_require__(31);
 
 var _promise2 = _interopRequireDefault(_promise);
 
-var _isomorphicFetch = __webpack_require__(32);
-
-var _isomorphicFetch2 = _interopRequireDefault(_isomorphicFetch);
+__webpack_require__(32);
 
 var _lodash = __webpack_require__(33);
 
@@ -17771,7 +17769,9 @@ var defaultOptions = {
 
 var get = exports.get = function get(url, options_) {
   var options = (0, _lodash.merge)({ method: GET }, defaultOptions, options_);
-  return (0, _isomorphicFetch2.default)(url, options).then(function (response) {
+  return fetch(url, options).then(function (response) {
+    console.log('------------------- get result -----------');
+    console.log(response);
     if (response.headers.get('content-type') === 'application/json') {
       return response.json().then(function (json) {
         return response.ok ? json : _promise2.default.reject(json.errors[0].message);
@@ -17784,7 +17784,7 @@ var get = exports.get = function get(url, options_) {
 
 var post = exports.post = function post(url, options_) {
   var options = (0, _lodash.merge)({ method: POST }, defaultOptions, options_);
-  return (0, _isomorphicFetch2.default)(url, options).then(function (response) {
+  return fetch(url, options).then(function (response) {
     if (response.headers.get('content-type') === 'application/json') {
       return response.json().then(function (json) {
         return response.ok ? json : _promise2.default.reject(json.errors[0].message);
@@ -17797,7 +17797,7 @@ var post = exports.post = function post(url, options_) {
 
 var delete_ = exports.delete_ = function delete_(url, options_) {
   var options = (0, _lodash.merge)({ method: DELETE }, defaultOptions, options_);
-  return (0, _isomorphicFetch2.default)(url, options).then(function (response) {
+  return fetch(url, options).then(function (response) {
     if (response.headers.get('content-type') === 'application/json') {
       return response.json().then(function (json) {
         return response.ok ? json : _promise2.default.reject(json.errors[0].message);

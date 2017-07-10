@@ -1,5 +1,5 @@
 // @flow
-import fetch from 'isomorphic-fetch'
+import 'isomorphic-fetch'
 import { merge } from 'lodash'
 
 const GET = 'GET'
