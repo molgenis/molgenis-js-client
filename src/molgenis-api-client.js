@@ -40,6 +40,14 @@ const mergeOptions = (method, options): Options => {
  * Get a JSON object from the server
  * Uses your session ID to authenticate
  *
+ * @example <caption>Example of how to use the get method</caption>
+ * // Handle a promise from calling /api/v2/EntityType
+ * get('/api/v2/EntityType').then(response => {...}, error => {...}))
+ *
+ * @example <caption>Example of how to use the get method with an added option</caption>
+ * // Handle a promise from calling /api/v2/EntityType with different content type
+ * get('/api/v2/EntityType', { headers: { 'Content-type': 'text' } }).then(response => {...}, error => {...})
+ *
  * @param url The URL to post to e.g. /api/v2/my_data_set
  * @param options_ An object containing additional options like headers or body
  */
@@ -52,6 +60,19 @@ export const get = (url: string, options_: ?Options) => {
  * Post a body of data to the server
  * Uses your session ID to authenticate
  *
+ * @example <caption>Example of how to use the post method</caption>
+ * // Post a data object and handle the response
+ * const data = {
+ *  items: ['1', '2'],
+ *  id: 'example'
+ * }
+ *
+ * const options = {
+ *  body: data
+ * }
+ *
+ * post('api/v2/PostData', options).then(response => {...}, error => {...})
+ *
  * @param url
  * @param options_
  */
@@ -63,6 +84,10 @@ export const post = (url: string, options_: ?Options) => {
 /**
  * Call a delete method on the server
  * Uses your session ID to authenticate
+ *
+ * @example <caption>Example of how to use the delete_ method</caption>
+ * // Handle the response from calling DELETE on /api/v2/deleteById/1
+ * delete_('/api/v2/deleteById/1').then(response => {...}, error => {...})
  *
  * @param url
  * @param options_
