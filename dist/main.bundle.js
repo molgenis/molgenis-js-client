@@ -17770,8 +17770,6 @@ var defaultOptions = {
 var get = exports.get = function get(url, options_) {
   var options = (0, _lodash.merge)({ method: GET }, defaultOptions, options_);
   return fetch(url, options).then(function (response) {
-    console.log('------------------- get result -----------');
-    console.log(response);
     if (response.headers.get('content-type') === 'application/json') {
       return response.json().then(function (json) {
         return response.ok ? json : _promise2.default.reject(json.errors[0].message);

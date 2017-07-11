@@ -24,6 +24,18 @@ const defaultOptions: Options = {
   'redirect': 'error'
 }
 
+const handleResponse = (response) => {
+  if (response.headers.get('content-type') === 'application/json') {
+    return response.json().then(json => response.ok ? json : Promise.reject(json.errors[0].message))
+  } else {
+    return response.ok ? response : Promise.reject(response)
+  }
+}
+
+const mergeOptions = (method, options): Options => {
+  return merge({method: method}, defaultOptions, options)
+}
+
 /**
  * Get a JSON object from the server
  * Uses your session ID to authenticate
@@ -32,14 +44,8 @@ const defaultOptions: Options = {
  * @param options_ An object containing additional options like headers or body
  */
 export const get = (url: string, options_: ?Options) => {
-  const options: Options = merge({method: GET}, defaultOptions, options_)
-  return fetch(url, options).then(response => {
-    if (response.headers.get('content-type') === 'application/json') {
-      return response.json().then(json => response.ok ? json : Promise.reject(json.errors[0].message))
-    } else {
-      return response.ok ? response : Promise.reject(response)
-    }
-  })
+  const options: Options = mergeOptions(GET, options_)
+  return fetch(url, options).then(handleResponse).then(response => response)
 }
 
 /**
@@ -50,14 +56,8 @@ export const get = (url: string, options_: ?Options) => {
  * @param options_
  */
 export const post = (url: string, options_: ?Options) => {
-  const options: Options = merge({method: POST}, defaultOptions, options_)
-  return fetch(url, options).then(response => {
-    if (response.headers.get('content-type') === 'application/json') {
-      return response.json().then(json => response.ok ? json : Promise.reject(json.errors[0].message))
-    } else {
-      return response.ok ? response : Promise.reject(response)
-    }
-  })
+  const options: Options = mergeOptions(POST, options_)
+  return fetch(url, options).then(handleResponse).then(response => response)
 }
 
 /**
@@ -68,12 +68,6 @@ export const post = (url: string, options_: ?Options) => {
  * @param options_
  */
 export const delete_ = (url: string, options_: ?Options) => {
-  const options: Options = merge({method: DELETE}, defaultOptions, options_)
-  return fetch(url, options).then(response => {
-    if (response.headers.get('content-type') === 'application/json') {
-      return response.json().then(json => response.ok ? json : Promise.reject(json.errors[0].message))
-    } else {
-      return response.ok ? response : Promise.reject(response)
-    }
-  })
+  const options: Options = mergeOptions(DELETE, options_)
+  return fetch(url, options).then(handleResponse).then(response => response)
 }
