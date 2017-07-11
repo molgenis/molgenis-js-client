@@ -17767,44 +17767,42 @@ var defaultOptions = {
   'redirect': 'error'
 };
 
+var handleResponse = function handleResponse(response) {
+  if (response.headers.get('content-type') === 'application/json') {
+    return response.json().then(function (json) {
+      return response.ok ? json : _promise2.default.reject(json.errors[0].message);
+    });
+  } else {
+    return response.ok ? response : _promise2.default.reject(response);
+  }
+};
+
+var mergeOptions = function mergeOptions(method, options) {
+  return (0, _lodash.merge)({ method: method }, defaultOptions, options);
+};
+
 var get = exports.get = function get(url, options_) {
-  var options = (0, _lodash.merge)({ method: GET }, defaultOptions, options_);
-  return fetch(url, options).then(function (response) {
-    if (response.headers.get('content-type') === 'application/json') {
-      return response.json().then(function (json) {
-        return response.ok ? json : _promise2.default.reject(json.errors[0].message);
-      });
-    } else {
-      return response.ok ? response : _promise2.default.reject(response);
-    }
+  var options = mergeOptions(GET, options_);
+  return fetch(url, options).then(handleResponse).then(function (response) {
+    return response;
   });
 };
 
 var post = exports.post = function post(url, options_) {
-  var options = (0, _lodash.merge)({ method: POST }, defaultOptions, options_);
-  return fetch(url, options).then(function (response) {
-    if (response.headers.get('content-type') === 'application/json') {
-      return response.json().then(function (json) {
-        return response.ok ? json : _promise2.default.reject(json.errors[0].message);
-      });
-    } else {
-      return response.ok ? response : _promise2.default.reject(response);
-    }
+  var options = mergeOptions(POST, options_);
+  return fetch(url, options).then(handleResponse).then(function (response) {
+    return response;
   });
 };
 
 var delete_ = exports.delete_ = function delete_(url, options_) {
-  var options = (0, _lodash.merge)({ method: DELETE }, defaultOptions, options_);
-  return fetch(url, options).then(function (response) {
-    if (response.headers.get('content-type') === 'application/json') {
-      return response.json().then(function (json) {
-        return response.ok ? json : _promise2.default.reject(json.errors[0].message);
-      });
-    } else {
-      return response.ok ? response : _promise2.default.reject(response);
-    }
+  var options = mergeOptions(DELETE, options_);
+  return fetch(url, options).then(handleResponse).then(function (response) {
+    return response;
   });
 };
+
+exports.default = { get: get, post: post, delete_: delete_ };
 
 /***/ }),
 /* 35 */

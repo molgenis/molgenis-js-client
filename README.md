@@ -116,7 +116,9 @@ Browser compatibility
 |-------|------|--------|---------|--------|-------|------------------|-------------|
 |  ✅   |   ✅  |   ✅   |     ✅   |   ✅   |    ✅   |        ✅        |      ✅      |
 
-\* ES6 Promise polyfill should be included, see [usage example](#usage).
+
+\* ES6 Promise polyfill should be included, see this [example](#CDN).
+
 Note that this library is used in bleeding edge front end development. We do not and will not provide support on IE8 or lower.
 
 Contributing

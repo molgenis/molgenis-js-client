@@ -96,3 +96,5 @@ export const delete_ = (url: string, options_: ?Options) => {
   const options: Options = mergeOptions(DELETE, options_)
   return fetch(url, options).then(handleResponse).then(response => response)
 }
+
+export default {get, post, delete_}
