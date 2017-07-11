@@ -1,92 +1,79 @@
 // @flow
-import fetch from 'isomorphic-fetch'
+import 'isomorphic-fetch'
+import { merge } from 'lodash'
 
-export type Server = {
-  apiUrl: string
-}
+const GET = 'GET'
+const POST = 'POST'
+const DELETE = 'DELETE'
 
-export type Settings = {
+type Options = {
+  headers?: Object,
+  credentials?: string,
+  redirect?: string,
   method?: string,
   body?: any,
-  headers?: any,
-  credentials?: string,
   mode?: string
 }
 
-const jsonContentHeaders = {
-  'Accept': 'application/json',
-  'Content-Type': 'application/json'
+const defaultOptions: Options = {
+  'headers': {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+  },
+  'credentials': 'same-origin',
+  'redirect': 'error'
 }
 
-function fetchForStatus (url: string, settings:Settings) {
-  return fetch(url, settings).then(response => {
-    if (response.ok) return response
-    else return response.json().then(json => Promise.reject(json))
+/**
+ * Get a JSON object from the server
+ * Uses your session ID to authenticate
+ *
+ * @param url The URL to post to e.g. /api/v2/my_data_set
+ * @param options_ An object containing additional options like headers or body
+ */
+export const get = (url: string, options_: ?Options) => {
+  const options: Options = merge({method: GET}, defaultOptions, options_)
+  return fetch(url, options).then(response => {
+    if (response.headers.get('content-type') === 'application/json') {
+      return response.json().then(json => response.ok ? json : Promise.reject(json.errors[0].message))
+    } else {
+      return response.ok ? response : Promise.reject(response)
+    }
   })
 }
 
-function fetchAndHandleResponse (url: string, settings:Settings) {
-  return fetch(url, settings)
-    .then(response => response.json()
-      .then(json => response.ok ? json : Promise.reject(json))
-    )
-}
-
-export function post (server: Server, uri: string, data:any, token: ?string) {
-  const url = server.apiUrl + uri
-  const settings: Settings = {
-    method: 'post',
-    headers: jsonContentHeaders,
-    body: JSON.stringify(data)
-  }
-
-  if (token) {
-    // for cross-origin requests, use a molgenis token
-    settings.headers = {...settings.headers, 'x-molgenis-token': token}
-    settings.mode = 'cors'
-  } else {
-    // for same origin requests, use the JSESSIONID cookie
-    settings.credentials = 'same-origin'
-  }
-
-  return fetchForStatus(url, settings)
-}
-
-export function callApi (server: Server, uri: string, method: string, token: ?string) {
-  const url = server.apiUrl + uri
-  const settings: Settings = {
-    method: method,
-    headers: jsonContentHeaders
-  }
-
-  if (token) {
-    // for cross-origin requests, use a molgenis token
-    settings.headers = {...jsonContentHeaders, 'x-molgenis-token': token}
-  } else {
-    // for same origin requests, use the JSESSIONID cookie
-    settings.credentials = 'same-origin'
-  }
-
-  return fetchAndHandleResponse(url, settings)
-}
-
-export function get (server: Server, uri: string, token: ?string) {
-  return callApi(server, uri, 'get', token)
-}
-
-export function login (username: string, password: string) {
-  return fetch('/api/v1/login', {
-    method: 'post',
-    headers: jsonContentHeaders,
-    body: JSON.stringify({username: username, password: password})
-  }).then(response => response.json())
-}
-
-export function logout (server: Server, token: string) {
-  return fetch(server.apiUrl + 'v1/logout', {
-    method: 'get',
-    headers: {...jsonContentHeaders, 'x-molgenis-token': token}
+/**
+ * Post a body of data to the server
+ * Uses your session ID to authenticate
+ *
+ * @param url
+ * @param options_
+ */
+export const post = (url: string, options_: ?Options) => {
+  const options: Options = merge({method: POST}, defaultOptions, options_)
+  return fetch(url, options).then(response => {
+    if (response.headers.get('content-type') === 'application/json') {
+      return response.json().then(json => response.ok ? json : Promise.reject(json.errors[0].message))
+    } else {
+      return response.ok ? response : Promise.reject(response)
+    }
   })
 }
 
-export default {login, logout, get, callApi}
+/**
+ * Call a delete method on the server
+ * Uses your session ID to authenticate
+ *
+ * @param url
+ * @param options_
+ */
+export const delete_ = (url: string, options_: ?Options) => {
+  const options: Options = merge({method: DELETE}, defaultOptions, options_)
+  return fetch(url, options).then(response => {
+    if (response.headers.get('content-type') === 'application/json') {
+      return response.json().then(json => response.ok ? json : Promise.reject(json.errors[0].message))
+    } else {
+      return response.ok ? response : Promise.reject(response)
+    }
+  })
+}
