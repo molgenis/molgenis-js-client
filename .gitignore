@@ -1,6 +1,6 @@
-.DS_Store
-node_modules/
-yarn-error.log
-.idea/
+.idea/**
+coverage
+dist
+node_modules
 npm-debug.log
-**/coverage/**
+.DS_Store

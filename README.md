@@ -8,7 +8,7 @@ Installation
 
 ### CDN
 ```html
-<script src="path/to/dist/main.bundle.js"></script>
+<script src="path/to/molgenis-api-client.js"></script>
 
 <!-- Include a polyfill for ES6 Promises (optional) for IE11, UC Browser and Android browser support -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
@@ -48,7 +48,11 @@ delete_(...)
 
 __CommonJS import__
 ```js
-const api = require('@molgenis/molgenis-api-client/dist/main.bundle.js')
+const api = require('@molgenis/molgenis-api-client/dist/molgenis-api-client.js')
+
+api.get(...)
+api.post(...)
+api.delete_(...)
 ```
 
 Examples
@@ -119,12 +123,13 @@ Browser compatibility
 
 \* ES6 Promise polyfill should be included, see this [example](#CDN).
 
-Note that this library is used in bleeding edge front end development. We do not and will not provide support on IE8 or lower.
+Note that this library is used in bleeding edge front end development. We __do not__ and __will not__ provide support on IE8 or lower.
 
 Contributing
 ------------
 
-This project uses [yarn](https://yarnpkg.com) for development.
+This project uses [Yarn](https://yarnpkg.com) for development, uses [Mocha](https://mochajs.org/
+) for testing and is compiled with [Rollup](https://rollupjs.org/)
 
 To get started: `yarn install`
 
@@ -132,7 +137,8 @@ To build: `yarn build`
 
 To test: `yarn test`
 
+To test with coverage: `yarn test:cover`
+
+To get coverage: `yarn coveralls`
+
 To lint: `yarn lint`
-
-To check flow types: `yarn flow`
-

@@ -1,41 +1,43 @@
-// https://github.com/shelljs/shelljs
-require('./check-versions')()
+'use strict';
 
-process.env.NODE_ENV = 'production'
-process.noDeprecation = true
+const fs = require('fs');
+const del = require('del');
+const rollup = require('rollup');
+const babel = require('rollup-plugin-babel');
+const pkg = require('../package.json');
 
-var ora = require('ora')
-var path = require('path')
-var chalk = require('chalk')
-var shell = require('shelljs')
-var webpack = require('webpack')
-var config = require('../config')
-var webpackConfig = require('./webpack.prod.conf')
+let promise = Promise.resolve();
 
-var spinner = ora('building for production...')
-spinner.start()
+// Clean up the output directory
+promise = promise.then(() => del(['dist/*']));
 
-var assetsPath = path.join(config.build.assetsRoot, config.build.assetsSubDirectory)
-shell.rm('-rf', assetsPath)
-shell.mkdir('-p', assetsPath)
-shell.config.silent = true
-shell.cp('-R', 'static/*', assetsPath)
-shell.config.silent = false
+// Compile source code into a distributable format with Babel
+['es', 'cjs', 'umd'].forEach((format) => {
+  promise = promise.then(() => rollup.rollup({
+    entry: 'src/molgenis-api-client.js',
+    external: Object.keys(pkg.dependencies),
+    plugins: [babel(Object.assign(pkg.babel, {
+      babelrc: false,
+      exclude: 'node_modules/**',
+      runtimeHelpers: true,
+      presets: pkg.babel.presets.map(x => (x === 'latest' ? ['latest', { es2015: { modules: false } }] : x)),
+    }))],
+  }).then(bundle => bundle.write({
+    dest: `dist/${format === 'cjs' ? 'molgenis-api-client' : `molgenis-api-client.${format}`}.js`,
+    format,
+    sourceMap: true,
+    moduleName: format === 'umd' ? pkg.name : undefined,
+  })));
+});
 
-webpack(webpackConfig, function (err, stats) {
-  spinner.stop()
-  if (err) throw err
-  process.stdout.write(stats.toString({
-    colors: true,
-    modules: false,
-    children: false,
-    chunks: false,
-    chunkModules: false
-  }) + '\n\n')
+// Copy package.json
+promise = promise.then(() => {
+  delete pkg.private;
+  delete pkg.devDependencies;
+  delete pkg.scripts;
+  delete pkg.eslintConfig;
+  delete pkg.babel;
+  fs.writeFileSync('dist/package.json', JSON.stringify(pkg, null, '  '), 'utf-8');
+});
 
-  console.log(chalk.cyan('  Build complete.\n'))
-  console.log(chalk.yellow(
-    '  Tip: built files are meant to be served over an HTTP server.\n' +
-    '  Opening index.html over file:// won\'t work.\n'
-  ))
-})
+promise.catch(err => console.error(err.stack)); // eslint-disable-line no-console

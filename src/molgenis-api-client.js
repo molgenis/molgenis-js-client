@@ -1,21 +1,7 @@
-// @flow
-import 'isomorphic-fetch'
+import fetch from 'isomorphic-fetch'
 import { merge } from 'lodash'
 
-const GET = 'GET'
-const POST = 'POST'
-const DELETE = 'DELETE'
-
-type Options = {
-  headers?: Object,
-  credentials?: string,
-  redirect?: string,
-  method?: string,
-  body?: any,
-  mode?: string
-}
-
-const defaultOptions: Options = {
+const defaultOptions = {
   'headers': {
     'Accept': 'application/json',
     'Content-Type': 'application/json'
@@ -32,7 +18,7 @@ const handleResponse = (response) => {
   }
 }
 
-const mergeOptions = (method, options): Options => {
+const mergeOptions = (method, options) => {
   return merge({method: method}, defaultOptions, options)
 }
 
@@ -51,8 +37,8 @@ const mergeOptions = (method, options): Options => {
  * @param url The URL to post to e.g. /api/v2/my_data_set
  * @param options_ An object containing additional options like headers or body
  */
-export const get = (url: string, options_: ?Options) => {
-  const options: Options = mergeOptions(GET, options_)
+export const get = (url, options_) => {
+  const options = mergeOptions('GET', options_)
   return fetch(url, options).then(handleResponse).then(response => response)
 }
 
@@ -76,8 +62,8 @@ export const get = (url: string, options_: ?Options) => {
  * @param url
  * @param options_
  */
-export const post = (url: string, options_: ?Options) => {
-  const options: Options = mergeOptions(POST, options_)
+export const post = (url, options_) => {
+  const options = mergeOptions('POST', options_)
   return fetch(url, options).then(handleResponse).then(response => response)
 }
 
@@ -92,8 +78,8 @@ export const post = (url: string, options_: ?Options) => {
  * @param url
  * @param options_
  */
-export const delete_ = (url: string, options_: ?Options) => {
-  const options: Options = mergeOptions(DELETE, options_)
+export const delete_ = (url, options_) => {
+  const options = mergeOptions('DELETE', options_)
   return fetch(url, options).then(handleResponse).then(response => response)
 }
 
