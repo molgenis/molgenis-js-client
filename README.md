@@ -6,14 +6,6 @@ Simplifies using REST api's by abstracting get, post, and delete and providing d
 Installation
 ------------
 
-### CDN
-```html
-<script src="path/to/molgenis-api-client.js"></script>
-
-<!-- Include a polyfill for ES6 Promises (optional) for IE11, UC Browser and Android browser support -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
-```
-
 ### NPM
 ```bash
 npm install @molgenis/molgenis-api-client --save
@@ -26,6 +18,14 @@ yarn add @molgenis/molgenis-api-client
 
 Usage
 -----
+
+__Import in your HTML__
+```html
+<script src="path/to/molgenis-api-client.js"></script>
+
+<!-- Include a polyfill for ES6 Promises (optional) for IE11, UC Browser and Android browser support -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/core-js/2.4.1/core.js"></script>
+```
 
 __Import as ES6 module__
 ```js
@@ -121,7 +121,7 @@ Browser compatibility
 |  ✅   |   ✅  |   ✅   |     ✅   |   ✅   |    ✅   |        ✅        |      ✅      |
 
 
-\* ES6 Promise polyfill should be included, see this [example](#CDN).
+\* ES6 Promise polyfill should be included, see this [example](#usage).
 
 Note that this library is used in bleeding edge front end development. We __do not__ and __will not__ provide support on IE8 or lower.
 
