@@ -1,6 +1,6 @@
 import 'isomorphic-fetch'
 import fetchMock from 'fetch-mock'
-import * as api from '../src/molgenis-api-client'
+import api from '../src/molgenis-api-client'
 import { expect } from 'chai'
 
 const assertEquals = (actual, expected) => {
