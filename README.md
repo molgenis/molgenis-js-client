@@ -36,16 +36,6 @@ api.post(...)
 api.delete_(...)
 ```
 
-__Named ES6 import__
-```js
-import { get, post, delete_ } from '@molgenis/molgenis-api-client'
-
-get(...)
-post(...)
-delete_(...)
-
-```
-
 __CommonJS import__
 ```js
 const api = require('@molgenis/molgenis-api-client/dist/molgenis-api-client.js')
@@ -108,8 +98,8 @@ The options object that can be supplied to different API methods can contain the
 | headers | associated Headers object | 'headers': { 'Accept': 'application/json', 'Content-Type': 'application/json' } |
 | referrer | referrer of the request | undefined |
 | mode | `cors, no-cors, same-origin` | undefined |
-| credentials | should cookies go with the request? `omit, same-origin` | same-origin | 
-| redirect | What to do on redirect. `follow, error, manual` | error | 
+| credentials | should cookies go with the request? `omit, same-origin` | same-origin |
+| redirect | What to do on redirect. `follow, error, manual` | error |
 | integrity | subresource integrity value | undefined |
 | cache | cache mode `default, reload, no-cache` | undefined |
 
@@ -133,7 +123,7 @@ This project uses [Yarn](https://yarnpkg.com) for development, uses [Mocha](http
 
 To get started: `yarn install`
 
-To build: `yarn build` 
+To build: `yarn build`
 
 To test: `yarn test`
 
