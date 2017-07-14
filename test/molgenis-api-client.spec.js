@@ -76,7 +76,7 @@ describe('Client Api', () => {
       status: 'SUCCESS'
     }
 
-    let options = {
+    const options = {
       body: JSON.stringify(data)
     }
 
