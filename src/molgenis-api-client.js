@@ -1,13 +1,12 @@
 import fetch from 'isomorphic-fetch'
-import extend from 'deep-extend'
+import { merge } from 'lodash'
 
 const defaultOptions = {
   'headers': {
     'Accept': 'application/json',
     'Content-Type': 'application/json'
   },
-  'credentials': 'same-origin',
-  'redirect': 'error'
+  'credentials': 'same-origin'
 }
 
 const handleResponse = (response) => {
@@ -19,7 +18,7 @@ const handleResponse = (response) => {
 }
 
 const mergeOptions = (method, options) => {
-  return extend({method: method}, extend(defaultOptions, options))
+  return merge({method: method}, defaultOptions, options)
 }
 
 /**
