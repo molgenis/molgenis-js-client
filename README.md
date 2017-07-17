@@ -132,3 +132,7 @@ To test with coverage: `yarn test:cover`
 To get coverage: `yarn coveralls`
 
 To lint: `yarn lint`
+
+To debug:
+ first add node-inspector: `npm install -g node-inspector`
+ then run: `yarn debug`
