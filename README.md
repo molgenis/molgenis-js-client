@@ -34,6 +34,7 @@ import api from '@molgenis/molgenis-api-client'
 api.get(...)
 api.post(...)
 api.delete_(...)
+api.postFile(...)
 ```
 
 __CommonJS import__
@@ -43,6 +44,7 @@ const api = require('@molgenis/molgenis-api-client/dist/molgenis-api-client.js')
 api.get(...)
 api.post(...)
 api.delete_(...)
+api.postFile(...)
 ```
 
 Examples
@@ -78,6 +80,11 @@ __DELETE__ examples
 delete_('/api/v2/deleteById/1').then(response => {...}, error => {...})
 ```
 
+__POST_FILE__ examples
+```js
+postFile('/plugin/one-click-importer/upload').then(response => {...}, error => {...})
+```
+
 Methods
 -------
 
@@ -86,6 +93,7 @@ Methods
 | api.get() | Performs a fetch with method 'GET' |
 | api.post() | Performs a fetch with method 'POST' |
 | api.delete_() | Performs a fetch with method 'DELETE' |
+| api.postFile() | Performs a fetch with method 'POST' and attached FormData() containing a 'file' parameter. Ignores other options |
 
 Options
 -------
