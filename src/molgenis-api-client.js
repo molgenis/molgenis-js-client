@@ -5,7 +5,8 @@ import FormData from 'form-data'
 const defaultOptions = {
   'headers': {
     'Accept': 'application/json',
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    'X-Requested-With': 'XMLHttpRequest'
   },
   'credentials': 'same-origin'
 }
