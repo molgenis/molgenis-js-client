@@ -10,7 +10,8 @@ const defaultOptions = {
 }
 
 const handleResponse = (response) => {
-  if (response.headers.get('content-type') === 'application/json') {
+  const contentType = response.headers.get('content-type')
+  if (contentType === 'application/json' || contentType === 'application/json; charset=utf-8') {
     return response.json().then(json => response.ok ? json : Promise.reject(json.errors[0].message))
   } else {
     return response.ok ? response : Promise.reject(response)
