@@ -135,4 +135,30 @@ describe('Client Api', () => {
       delete_.catch(response => assertEquals(response, 'its an error')).then(done())
     })
   })
+
+  describe('postFile', () => {
+    afterEach(fetchMock.restore)
+
+    it('should return a Job URL when post is successful', done => {
+      const response = {
+        text: '/api/v2/job/test'
+      }
+
+      fetchMock.post('https://test.com/molgenis-test/post-something', response)
+      const post = api.postFile('https://test.com/molgenis-test/post-something', 'test.txt')
+
+      post.then(response => assertEquals(response, '/api/v2/job/test')).then(done())
+    })
+
+    it('should return an error when post failed', done => {
+      const response = {
+        errors: [{message: 'its an error'}]
+      }
+
+      fetchMock.post('https://test.com/molgenis-test/post-something-not-ok', response)
+      const post = api.post('https://test.com/molgenis-test/post-something-not-ok', 'test.txt')
+
+      post.catch(response => assertEquals(response, 'its an error')).then(done())
+    })
+  })
 })

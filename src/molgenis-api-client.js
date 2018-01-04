@@ -1,12 +1,18 @@
 import fetch from 'isomorphic-fetch'
 import { merge } from 'lodash'
+import FormData from 'form-data'
 
 const defaultOptions = {
   'headers': {
     'Accept': 'application/json',
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    'X-Requested-With': 'XMLHttpRequest'
   },
   'credentials': 'same-origin'
+}
+
+const handleJobResponse = response => {
+  return response.text().then(text => response.ok ? text : Promise.reject(response))
 }
 
 const handleResponse = (response) => {
@@ -83,4 +89,31 @@ const delete_ = (url, options_) => {
   return fetch(url, options).then(handleResponse).then(response => response)
 }
 
-export default {get, post, delete_}
+/**
+ * Post a file to the server
+ * FormData is created with a 'file' parameter. A POST is then automatically created.
+ * Uses your session ID to authenticate
+ *
+ * Expects the response from the server to contain a Job URL
+ *
+ * @example <caption>Example of how the use the postFile method</caption>
+ * // Post a file and handle the response
+ * postFile('/plugin/one-click-importer/upload', myAwesomeFile).then(response => {...}, error => {...})
+ *
+ * @param url
+ * @param file
+ */
+const postFile = (url, file) => {
+  const form = new FormData()
+  form.append('file', file)
+
+  const options = {
+    body: form,
+    method: 'POST',
+    credentials: 'same-origin'
+  }
+
+  return fetch(url, options).then(handleJobResponse).then(response => response)
+}
+
+export default {get, post, delete_, postFile}
