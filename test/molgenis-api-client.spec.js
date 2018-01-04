@@ -43,6 +43,21 @@ describe('Client Api', () => {
       get.then(response => assertDeepEquals(response, resultBody)).then(done())
     })
 
+    it('should return the server response json when content type is json with encoding', done => {
+      const resultBody = {foo: 'bar'}
+      const response = {
+        headers: {
+          'content-type': 'application/json; charset=utf-8'
+        },
+        body: resultBody
+      }
+
+      fetchMock.get('https://test.com/molgenis-test/get-something', response)
+      const get = api.get('https://test.com/molgenis-test/get-something')
+
+      get.then(response => assertDeepEquals(response, resultBody)).then(done())
+    })
+
     it('should reject the server response when response type is not json and not ok', done => {
       fetchMock.get('https://test.com/molgenis-test/get-something-not-ok', 400)
       const get = api.get('https://test.com/molgenis-test/get-something-not-ok')

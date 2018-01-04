@@ -1,6 +1,6 @@
 {
   "name": "@molgenis/molgenis-api-client",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "A javascript client for the molgenis api",
   "main": "dist/molgenis-api-client.es.js",
   "scripts": {
