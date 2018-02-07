@@ -15,9 +15,18 @@ const handleJobResponse = response => {
   return response.text().then(text => response.ok ? text : Promise.reject(response))
 }
 
-const handleResponse = (response) => {
+const isJsonResponse = (response) => {
   const contentType = response.headers.get('content-type')
-  if (contentType === 'application/json' || contentType === 'application/json; charset=utf-8') {
+    if (!contentType) {
+      return false
+    }
+    // Ignore case, whitespace and double quotes around charset as per http spec (https://tools.ietf.org/html/rfc7231#section-3.1.1.5)
+    const normalizedContentType = contentType.toLowerCase().split(' ').join('').split('"').join('')
+    return normalizedContentType === 'application/json' || normalizedContentType === 'application/json;charset=utf-8'
+}
+
+const handleResponse = (response) => {
+  if (isJsonResponse(response)) {
     return response.json().then(json => response.ok ? json : Promise.reject(json.errors[0].message))
   } else {
     return response.ok ? response : Promise.reject(response)

@@ -47,7 +47,7 @@ describe('Client Api', () => {
       const resultBody = {foo: 'bar'}
       const response = {
         headers: {
-          'content-type': 'application/json; charset=utf-8'
+          'content-type': 'application/JSON; charset="utf-8"'
         },
         body: resultBody
       }
@@ -56,6 +56,21 @@ describe('Client Api', () => {
       const get = api.get('https://test.com/molgenis-test/get-something')
 
       get.then(response => assertDeepEquals(response, resultBody)).then(done())
+    })
+
+    it('should return the server response json when content type is json with encoding and no white space before charset', done => {
+        const resultBody = {foo: 'bar'}
+        const response = {
+            headers: {
+                'content-type': 'application/json;charset=utf-8'
+            },
+            body: resultBody
+        }
+
+        fetchMock.get('https://test.com/molgenis-test/get-something', response)
+        const get = api.get('https://test.com/molgenis-test/get-something')
+
+        get.then(response => assertDeepEquals(response, resultBody)).then(done())
     })
 
     it('should reject the server response when response type is not json and not ok', done => {
