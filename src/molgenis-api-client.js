@@ -83,6 +83,31 @@ const post = (url, options_) => {
 }
 
 /**
+ * Put a body of data to the server
+ * Uses your session ID to authenticate
+ *
+ * @example <caption>Example of how to use the post method</caption>
+ * // Put a data object and handle the response
+ * const data = {
+ *  items: ['1', '2'],
+ *  id: 'example'
+ * }
+ *
+ * const options = {
+ *  body: data
+ * }
+ *
+ * put('api/v2/PostData', options).then(response => {...}, error => {...})
+ *
+ * @param url
+ * @param options_
+ */
+const put = (url, options_) => {
+  const options = mergeOptions('PUT', options_)
+  return fetch(url, options).then(handleResponse).then(response => response)
+}
+
+/**
  * Call a delete method on the server
  * Uses your session ID to authenticate
  *
@@ -125,4 +150,4 @@ const postFile = (url, file) => {
   return fetch(url, options).then(handleJobResponse).then(response => response)
 }
 
-export default {get, post, delete_, postFile}
+export default {get, post, put, delete_, postFile}
