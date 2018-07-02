@@ -129,6 +129,37 @@ describe('Client Api', () => {
     })
   })
 
+  describe('put', () => {
+    afterEach(fetchMock.restore)
+
+    const data = {
+      items: ['1', '2'],
+      status: 'SUCCESS'
+    }
+
+    const options = {
+      body: JSON.stringify(data)
+    }
+
+    it('should return server status OK when put is successful', done => {
+      fetchMock.put('https://test.com/molgenis-test/put-something', 200)
+      const put = api.put('https://test.com/molgenis-test/put-something', options)
+
+      put.then(response => assertEquals(response.status, 200)).then(done())
+    })
+
+    it('should return an error when put failed', done => {
+      const response = {
+        errors: [{message: 'its an error'}]
+      }
+
+      fetchMock.put('https://test.com/molgenis-test/put-something-not-ok', response)
+      const put = api.put('https://test.com/molgenis-test/put-something-not-ok', options)
+
+      put.catch(response => assertEquals(response, 'its an error')).then(done())
+    })
+  })
+
   describe('delete', () => {
     afterEach(fetchMock.restore)
 
