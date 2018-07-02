@@ -33,6 +33,7 @@ import api from '@molgenis/molgenis-api-client'
 
 api.get(...)
 api.post(...)
+api.put(...)
 api.delete_(...)
 api.postFile(...)
 ```
@@ -43,6 +44,7 @@ const api = require('@molgenis/molgenis-api-client/dist/molgenis-api-client.js')
 
 api.get(...)
 api.post(...)
+api.put(...)
 api.delete_(...)
 api.postFile(...)
 ```
@@ -73,6 +75,20 @@ const options = {
 
 post('api/v2/PostData', options).then(response => {...}, error => {...})
 ```
+__PUT__ examples
+
+```js
+const data = {
+  items: ['1', '2'],
+  status: 'SUCCESS'
+}
+
+const options = {
+  body: JSON.stringify(data)
+}
+
+put('https://test.com/molgenis-test/put-something', options).then(response => {...}, error => {...})
+```
 
 __DELETE__ examples
 
@@ -92,6 +108,7 @@ Methods
 |--------|-------------|
 | api.get() | Performs a fetch with method 'GET' |
 | api.post() | Performs a fetch with method 'POST' |
+| api.put() | Performs a fetch with method 'PUT' |
 | api.delete_() | Performs a fetch with method 'DELETE' |
 | api.postFile() | Performs a fetch with method 'POST' and attached FormData() containing a 'file' parameter. Ignores other options |
 
@@ -102,7 +119,7 @@ The options object that can be supplied to different API methods can contain the
 
 | Parameter | Description | Default value |
 |-----------|-------------|---------------|
-| method | `GET, POST, PUT, DELETE, HEAD` | Defaults to GET for get(), POST for post() and DELETE for delete_() |
+| method | `GET, POST, PUT, DELETE, HEAD` | Defaults to GET for get(), POST for post() and DELETE for delete() and PUT for put() |
 | headers | associated Headers object | 'headers': { 'Accept': 'application/json', 'Content-Type': 'application/json' } |
 | referrer | referrer of the request | undefined |
 | mode | `cors, no-cors, same-origin` | undefined |
