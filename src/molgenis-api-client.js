@@ -11,18 +11,14 @@ const defaultOptions = {
   'credentials': 'same-origin'
 }
 
-const handleJobResponse = response => {
-  return response.text().then(text => response.ok ? text : Promise.reject(response))
-}
-
 const isJsonResponse = (response) => {
   const contentType = response.headers.get('content-type')
-    if (!contentType) {
-      return false
-    }
-    // Ignore case, whitespace and double quotes around charset as per http spec (https://tools.ietf.org/html/rfc7231#section-3.1.1.5)
-    const normalizedContentType = contentType.toLowerCase().split(' ').join('').split('"').join('')
-    return normalizedContentType === 'application/json' || normalizedContentType === 'application/json;charset=utf-8'
+  if (!contentType) {
+    return false
+  }
+  // Ignore case, whitespace and double quotes around charset as per http spec (https://tools.ietf.org/html/rfc7231#section-3.1.1.5)
+  const normalizedContentType = contentType.toLowerCase().split(' ').join('').split('"').join('')
+  return normalizedContentType === 'application/json' || normalizedContentType === 'application/json;charset=utf-8'
 }
 
 /**
@@ -167,7 +163,7 @@ const postFile = (url, file) => {
     credentials: 'same-origin'
   }
 
-  return fetch(url, options).then(handleJobResponse).then(response => response)
+  return fetch(url, options).then(handleResponse).then(response => response)
 }
 
 export default {get, post, put, delete_, postFile}
