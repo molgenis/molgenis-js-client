@@ -25,9 +25,29 @@ const isJsonResponse = (response) => {
     return normalizedContentType === 'application/json' || normalizedContentType === 'application/json;charset=utf-8'
 }
 
+/**
+ * Handle the JSON response from the server.
+ *
+ * When an error occurs a default ErrorResponse from the server is returned.
+ * This ErrorResponse returns an array of errors and error-codes
+ *
+ * Example errorResponse
+ * @example
+ * {"errors":
+ *   [
+ *     {
+ *       "message":"Group name 'test' is not a available, please choose a different group name.",
+ *       "code":"DS16"
+ *     }
+ *   ]
+ * }
+ *
+ * note: there could be more than one error
+ *
+ */
 const handleResponse = (response) => {
   if (isJsonResponse(response)) {
-    return response.json().then(json => response.ok ? json : Promise.reject(json.errors[0].message))
+    return response.json().then(json => response.ok ? json : Promise.reject(json))
   } else {
     return response.ok ? response : Promise.reject(response)
   }
