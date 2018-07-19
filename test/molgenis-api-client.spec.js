@@ -208,8 +208,11 @@ describe('Client Api', () => {
   describe('postFile', () => {
     afterEach(fetchMock.restore)
 
-    it('should return a Job URL when post is successful', done => {
+    it.only('should return a Job URL when post is successful', done => {
       const response = {
+        headers: {
+          'content-type': 'application/json'
+        },
         body: {
           text: '/api/v2/job/test'
         }
@@ -218,7 +221,7 @@ describe('Client Api', () => {
       fetchMock.post('https://test.com/molgenis-test/post-something', response)
       const post = api.postFile('https://test.com/molgenis-test/post-something', 'test.txt')
 
-      post.then(res => assertEquals(res, '/api/v2/job/test')).then(done)
+      post.then(res => assertEquals(res.text, '/api/v2/job/test')).then(done)
     })
 
     it('should return an error when post failed', done => {
