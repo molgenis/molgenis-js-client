@@ -1,4 +1,4 @@
-import fetch from 'isomorphic-fetch'
+import 'isomorphic-fetch'
 import { merge } from 'lodash'
 import FormData from 'form-data'
 
