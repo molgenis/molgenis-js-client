@@ -208,7 +208,7 @@ describe('Client Api', () => {
   describe('postFile', () => {
     afterEach(fetchMock.restore)
 
-    it.only('should return a Job URL when post is successful', done => {
+    it('should return a Job URL when post is successful', done => {
       const response = {
         headers: {
           'content-type': 'application/json'
