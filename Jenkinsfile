@@ -28,9 +28,7 @@ pipeline {
             }
             post {
                 always {
-                    container('alpine') {
-                        sh "curl -s https://codecov.io/bash | bash -s - -c -F unit -K"
-                    }
+                    sh "curl -s https://codecov.io/bash | bash -s - -c -F unit -K"
                 }
             }
         }
@@ -47,15 +45,13 @@ pipeline {
             }
             post {
                 always {
-                    container('alpine') {
-                        sh "curl -s https://codecov.io/bash | bash -s - -c -F unit -K"
-                    }
+                    sh "curl -s https://codecov.io/bash | bash -s - -c -F unit -K"
                 }
             }
         }
         stage('Release: [ master ]') {
             when {
-                tag
+                buildingTag()
             }
             steps {
                 container('node-carbon') {
