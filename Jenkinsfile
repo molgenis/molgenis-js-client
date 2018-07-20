@@ -1,7 +1,7 @@
 pipeline {
     agent {
         kubernetes {
-            label 'molgenis'
+            label 'node-carbon'
         }
     }
     environment {
@@ -21,7 +21,7 @@ pipeline {
                 changeRequest()
             }
             steps {
-                container('node-carbon') {
+                container('node') {
                     sh "yarn install"
                     sh "yarn test"
                 }
@@ -37,7 +37,7 @@ pipeline {
                 branch 'master'
             }
             steps {
-                container('node-carbon') {
+                container('node') {
                     sh "yarn install"
                     sh "yarn test"
                     sh "yarn build"
@@ -54,7 +54,7 @@ pipeline {
                 buildingTag()
             }
             steps {
-                container('node-carbon') {
+                container('node') {
                     sh "yarn install"
                     sh "yarn test"
                     sh "yarn build"
