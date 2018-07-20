@@ -2,7 +2,6 @@ import 'isomorphic-fetch'
 import api from '../src/molgenis-api-client'
 import fetchMock from 'fetch-mock'
 import { expect } from 'chai'
-import FormData from 'form-data'
 
 const assertEquals = (actual, expected) => {
   expect(actual).to.equal(expected)
@@ -60,18 +59,18 @@ describe('Client Api', () => {
     })
 
     it('should return the server response json when content type is json with encoding and no white space before charset', done => {
-        const resultBody = {foo: 'bar'}
-        const response = {
-            headers: {
-                'content-type': 'application/json;charset=utf-8'
-            },
-            body: resultBody
-        }
+      const resultBody = {foo: 'bar'}
+      const response = {
+        headers: {
+          'content-type': 'application/json;charset=utf-8'
+        },
+        body: resultBody
+      }
 
-        fetchMock.get('https://test.com/molgenis-test/get-something', response)
-        const get = api.get('https://test.com/molgenis-test/get-something')
+      fetchMock.get('https://test.com/molgenis-test/get-something', response)
+      const get = api.get('https://test.com/molgenis-test/get-something')
 
-        get.then(res => assertDeepEquals(res, resultBody)).then(done)
+      get.then(res => assertDeepEquals(res, resultBody)).then(done)
     })
 
     it('should reject the server response when response type is not json and not ok', done => {
@@ -83,7 +82,8 @@ describe('Client Api', () => {
 
     it('should reject the server response json and return the first error when content type is json but the request is not ok', done => {
       const resultBody = {
-        errors: [{message: 'its an error'}]}
+        errors: [{message: 'its an error'}]
+      }
 
       const response = {
         status: 400,
@@ -121,7 +121,8 @@ describe('Client Api', () => {
 
     it('should return an error when post failed', done => {
       const resultBody = {
-        errors: [{message: 'its an error'}]}
+        errors: [{message: 'its an error'}]
+      }
 
       const response = {
         status: 400,
@@ -134,7 +135,7 @@ describe('Client Api', () => {
       fetchMock.post('https://test.com/molgenis-test/post-something-not-ok', response)
       const post = api.post('https://test.com/molgenis-test/post-something-not-ok', 'test.txt')
 
-      post.catch(res => assertDeepEquals(res, { errors: [{message: 'its an error'}] })).then(done)
+      post.catch(res => assertDeepEquals(res, {errors: [{message: 'its an error'}]})).then(done)
     })
   })
 
@@ -159,7 +160,8 @@ describe('Client Api', () => {
 
     it('should return an error when put failed', done => {
       const resultBody = {
-        errors: [{message: 'its an error'}]}
+        errors: [{message: 'its an error'}]
+      }
 
       const response = {
         status: 400,
@@ -172,7 +174,7 @@ describe('Client Api', () => {
       fetchMock.put('https://test.com/molgenis-test/put-something-not-ok', response)
       const put = api.put('https://test.com/molgenis-test/put-something-not-ok', options)
 
-      put.catch(res => assertDeepEquals(res, { errors: [{message: 'its an error'}] })).then(done)
+      put.catch(res => assertDeepEquals(res, {errors: [{message: 'its an error'}]})).then(done)
     })
   })
 
@@ -188,7 +190,8 @@ describe('Client Api', () => {
 
     it('should return an error when delete failed', done => {
       const resultBody = {
-        errors: [{message: 'its an error'}]}
+        errors: [{message: 'its an error'}]
+      }
 
       const response = {
         status: 400,
@@ -201,7 +204,7 @@ describe('Client Api', () => {
       fetchMock.delete('https://test.com/molgenis-test/delete-something-not-ok', response)
       const delete_ = api.delete_('https://test.com/molgenis-test/delete-something-not-ok')
 
-      delete_.catch(res => assertDeepEquals(res, { errors: [{message: 'its an error'}] })).then(done)
+      delete_.catch(res => assertDeepEquals(res, {errors: [{message: 'its an error'}]})).then(done)
     })
   })
 
@@ -226,7 +229,8 @@ describe('Client Api', () => {
 
     it('should return an error when post failed', done => {
       const resultBody = {
-        errors: [{message: 'its an error'}]}
+        errors: [{message: 'its an error'}]
+      }
 
       const response = {
         status: 400,
@@ -239,7 +243,7 @@ describe('Client Api', () => {
       fetchMock.post('https://test.com/molgenis-test/post-something-not-ok', response)
       const post = api.post('https://test.com/molgenis-test/post-something-not-ok', 'test.txt')
 
-      post.catch(res => assertDeepEquals(res, { errors: [{message: 'its an error'}] })).then(done)
+      post.catch(res => assertDeepEquals(res, {errors: [{message: 'its an error'}]})).then(done)
     })
   })
 })
