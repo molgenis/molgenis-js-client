@@ -62,7 +62,6 @@ pipeline {
                 }
             }
             environment {
-                NPM_TOKEN = credentials('s3-upload-credential')
                 NPM_REGISTRY = " registry.npmjs.org"
             }
             steps {
@@ -73,7 +72,7 @@ pipeline {
                     sh "git config --global user.name molgenis"
                     sh "git push --tags blessed master"
 
-                    sh "echo //${NPM_REGISTRY}/:_authToken=${NPM_TOKEN} > ~/.npmrc"
+                    sh "echo //${NPM_REGISTRY}/:_authToken=${env.NPM_TOKEN} > ~/.npmrc"
                     sh "npm publish"
                 }
 
