@@ -24,7 +24,6 @@ pipeline {
             steps {
                 container('node') {
                     sh "yarn install"
-                    sh "yarn test"
                 }
             }
             post {
@@ -41,7 +40,6 @@ pipeline {
             steps {
                 container('node') {
                     sh "yarn install"
-                    sh "yarn test"
                     sh "yarn build"
                 }
             }
@@ -63,15 +61,17 @@ pipeline {
                 }
             }
             environment {
-                NPM_REGISTRY = " registry.npmjs.org"
+                NPM_REGISTRY = "registry.npmjs.org"
             }
             steps {
                 container('node') {
-                    sh "npm version ${RELEASE_SCOPE}"
-
                     sh "git config --global user.email git@molgenis.org"
                     sh "git config --global user.name molgenis"
-                    sh "git push --tags blessed master"
+                    sh "git checkout -f master"
+
+                    sh "npm version ${RELEASE_SCOPE}"
+
+                    //sh "git push --tags origin master"
 
                     sh "echo //${NPM_REGISTRY}/:_authToken=${env.NPM_TOKEN} > ~/.npmrc"
                     sh "npm publish"
