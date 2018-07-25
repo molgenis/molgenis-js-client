@@ -36,6 +36,7 @@ pipeline {
             when {
                 branch 'master'
             }
+
             steps {
                 container('node') {
                     sh "yarn install"
@@ -51,27 +52,43 @@ pipeline {
         }
         stage('Release: [ master ]') {
             when {
-                buildingTag()
+                branch 'master'
+            }
+            input {
+                message 'Do you want to release?'
+                ok 'Release'
+                parameters {
+                    choice choices: ['patch', 'minor', 'major'], description: '', name: 'RELEASE_SCOPE'
+                }
+            }
+            environment {
+                NPM_TOKEN = credentials('s3-upload-credential')
+                NPM_REGISTRY = " registry.npmjs.org"
             }
             steps {
                 container('node') {
-                    sh "yarn install"
-                    sh "yarn test"
-                    sh "yarn build"
-                    //TODO: push to registry.npmjs.org
+                    sh "npm version ${RELEASE_SCOPE}"
+
+                    sh "git config --global user.email git@molgenis.org"
+                    sh "git config --global user.name molgenis"
+                    sh "git push --tags blessed master"
+
+                    sh "echo //${NPM_REGISTRY}/:_authToken=${NPM_TOKEN} > ~/.npmrc"
+                    sh "npm publish"
                 }
+
             }
         }
     }
-//    post {
+    post {
         // [ slackSend ]; has to be configured on the host, it is the "Slack Notification Plugin" that has to be installed
-//        success {
-//            notifySuccess()
-//        }
-//        failure {
-//            notifyFailed()
-//        }
-//    }
+        success {
+            notifySuccess()
+        }
+        failure {
+            notifyFailed()
+        }
+    }
 }
 
 def notifySuccess() {

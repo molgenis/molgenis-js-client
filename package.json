@@ -9,7 +9,7 @@
     "debug": "mocha --compilers js:babel-register --debug-brk",
     "test:watch": "mocha --compilers js:babel-register --reporter min --watch",
     "build": "node build/build",
-    "preversion": "yarn test; yarn build"
+    "preversion": "yarn install; yarn test; yarn build"
   },
   "repository": "git@github.com:molgenis/molgenis-api-client.git",
   "keywords": [
