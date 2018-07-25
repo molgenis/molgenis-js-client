@@ -75,7 +75,6 @@ pipeline {
                     sh "echo //${NPM_REGISTRY}/:_authToken=${env.NPM_TOKEN} > ~/.npmrc"
                     sh "npm publish"
                 }
-
             }
         }
     }
