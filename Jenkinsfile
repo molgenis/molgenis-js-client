@@ -36,7 +36,6 @@ pipeline {
             when {
                 branch 'master'
             }
-            milestone()
             steps {
                 container('node') {
                     sh "yarn install"
@@ -60,7 +59,6 @@ pipeline {
                     choice choices: ['patch', 'minor', 'major'], description: '', name: 'RELEASE_SCOPE'
                 }
             }
-            milestone()
             environment {
                 NPM_REGISTRY = "registry.npmjs.org"
             }
