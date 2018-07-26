@@ -36,7 +36,7 @@ pipeline {
             when {
                 branch 'master'
             }
-
+            milestone()
             steps {
                 container('node') {
                     sh "yarn install"
@@ -60,6 +60,7 @@ pipeline {
                     choice choices: ['patch', 'minor', 'major'], description: '', name: 'RELEASE_SCOPE'
                 }
             }
+            milestone()
             environment {
                 NPM_REGISTRY = "registry.npmjs.org"
             }
@@ -67,11 +68,13 @@ pipeline {
                 container('node') {
                     sh "git config --global user.email git@molgenis.org"
                     sh "git config --global user.name molgenis"
+                    sh "git remote set-url origin https://${env.GITHUB_TOKEN}@github.com/${ORG}/${APP_NAME}.git"
+
                     sh "git checkout -f master"
 
                     sh "npm version ${RELEASE_SCOPE}"
 
-                    //sh "git push --tags origin master"
+                    sh "git push --tags origin master"
 
                     sh "echo //${NPM_REGISTRY}/:_authToken=${env.NPM_TOKEN} > ~/.npmrc"
                     sh "npm publish"
