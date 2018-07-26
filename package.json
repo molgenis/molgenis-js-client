@@ -11,6 +11,10 @@
     "build": "node build/build",
     "preversion": "yarn install; yarn test; yarn build"
   },
+  "publishConfig": {
+    "access": "public",
+    "registry": "http://registry.npmjs.org"
+  },
   "repository": "git@github.com:molgenis/molgenis-api-client.git",
   "keywords": [
     "molgenis",

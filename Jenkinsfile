@@ -36,7 +36,7 @@ pipeline {
             when {
                 branch 'master'
             }
-
+            milestone()
             steps {
                 container('node') {
                     sh "yarn install"
@@ -54,15 +54,15 @@ pipeline {
             when {
                 branch 'master'
             }
+            environment {
+                NPM_REGISTRY = "registry.npmjs.org"
+            }
             input {
                 message 'Do you want to release?'
                 ok 'Release'
                 parameters {
                     choice choices: ['patch', 'minor', 'major'], description: '', name: 'RELEASE_SCOPE'
                 }
-            }
-            environment {
-                NPM_REGISTRY = "registry.npmjs.org"
             }
             steps {
                 container('node') {
@@ -77,6 +77,7 @@ pipeline {
                     sh "git push --tags origin master"
 
                     sh "echo //${NPM_REGISTRY}/:_authToken=${env.NPM_TOKEN} > ~/.npmrc"
+
                     sh "npm publish"
                 }
             }
