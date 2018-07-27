@@ -36,12 +36,11 @@ pipeline {
             when {
                 branch 'master'
             }
-            milestone()
             steps {
+                milestone 1
                 container('node') {
                     sh "yarn install"
                     sh "yarn test"
-                    sh "yarn build"
                 }
             }
             post {
@@ -57,14 +56,19 @@ pipeline {
             environment {
                 NPM_REGISTRY = "registry.npmjs.org"
             }
-            input {
-                message 'Do you want to release?'
-                ok 'Release'
-                parameters {
-                    choice choices: ['patch', 'minor', 'major'], description: '', name: 'RELEASE_SCOPE'
-                }
-            }
             steps {
+                timeout(time: 10, unit: 'MINUTES') {
+                    script {
+                        env.RELEASE_SCOPE = input(
+                                message: 'Do you want to release?',
+                                ok: 'Release',
+                                parameters: [
+                                        choice(choices: 'patch\nminor\nmajor', description: '', name: 'RELEASE_SCOPE')
+                                ]
+                        )
+                    }
+                }
+                milestone 2
                 container('node') {
                     sh "git config --global user.email git@molgenis.org"
                     sh "git config --global user.name molgenis"
@@ -72,7 +76,7 @@ pipeline {
 
                     sh "git checkout -f master"
 
-                    sh "npm version ${RELEASE_SCOPE}"
+                    sh "npm version ${env.RELEASE_SCOPE}"
 
                     sh "git push --tags origin master"
 
