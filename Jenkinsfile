@@ -69,21 +69,23 @@ pipeline {
                 }
                 milestone 2
                 container('node') {
-                    sh "APP_NAME=$(node -pe \"require('./package.json').name\")"
+                    sh """
+                       export APP_NAME=$(node -pe \"require('./package.json').name\")
 
-                    sh "git config --global user.email git@molgenis.org"
-                    sh "git config --global user.name molgenis"
-                    sh "git remote set-url origin https://${env.GITHUB_TOKEN}@github.com/${ORG}/${APP_NAME}.git"
+                       git config --global user.email git@molgenis.org
+                       git config --global user.name molgenis
+                       git remote set-url origin https://${env.GITHUB_TOKEN}@github.com/${ORG}/${APP_NAME}.git
 
-                    sh "git checkout -f master"
+                       git checkout -f master
 
-                    sh "npm version ${env.RELEASE_SCOPE}"
+                       npm version ${env.RELEASE_SCOPE}
 
-                    sh "git push --tags origin master"
+                       git push --tags origin master
 
-                    sh "echo //${NPM_REGISTRY}/:_authToken=${env.NPM_TOKEN} > ~/.npmrc"
+                       echo //${NPM_REGISTRY}/:_authToken=${env.NPM_TOKEN} > ~/.npmrc
 
-                    sh "npm publish"
+                       npm publish
+                    """
                 }
             }
         }
