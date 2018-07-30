@@ -6,7 +6,6 @@ pipeline {
     }
     environment {
         ORG = 'molgenis'
-        APP_NAME = 'molgenis-api-client'
     }
     stages {
         stage('Prepare') {
@@ -70,6 +69,8 @@ pipeline {
                 }
                 milestone 2
                 container('node') {
+                    sh "APP_NAME=$(node -pe \"require('./package.json').name\")"
+
                     sh "git config --global user.email git@molgenis.org"
                     sh "git config --global user.name molgenis"
                     sh "git remote set-url origin https://${env.GITHUB_TOKEN}@github.com/${ORG}/${APP_NAME}.git"
