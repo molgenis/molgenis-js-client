@@ -67,9 +67,11 @@ const mergeOptions = (method, options) => {
  *
  * @param url The URL to post to e.g. /api/v2/my_data_set
  * @param options_ An object containing additional options like headers or body
+ * @param forceOptions optional boolean if set to true options are not merged with defaults but used as passed,
+ * defaults to false.
  */
-const get = (url, options_) => {
-  const options = mergeOptions('GET', options_)
+const get = (url, options_, forceOptions) => {
+  const options = forceOptions ? options_ : mergeOptions('GET', options_)
   return fetch(url, options).then(handleResponse).then(response => response)
 }
 
@@ -92,9 +94,11 @@ const get = (url, options_) => {
  *
  * @param url
  * @param options_
+ * @param forceOptions optional boolean if set to true options are not merged with defaults but used as passed,
+ * defaults to false.
  */
-const post = (url, options_) => {
-  const options = mergeOptions('POST', options_)
+const post = (url, options_, forceOptions) => {
+  const options = forceOptions ? options_ : mergeOptions('POST', options_)
   return fetch(url, options).then(handleResponse).then(response => response)
 }
 
@@ -117,9 +121,10 @@ const post = (url, options_) => {
  *
  * @param url
  * @param options_
+ * @param forceOptions optional boolean if set to true options are not merged by used as passed, defaults to false
  */
-const put = (url, options_) => {
-  const options = mergeOptions('PUT', options_)
+const put = (url, options_, forceOptions) => {
+  const options = forceOptions ? options_ : mergeOptions('PUT', options_)
   return fetch(url, options).then(handleResponse).then(response => response)
 }
 
@@ -133,9 +138,10 @@ const put = (url, options_) => {
  *
  * @param url
  * @param options_
+ * @param forceOptions optional boolean if set to true options are not merged by used as passed, defaults to false
  */
-const delete_ = (url, options_) => {
-  const options = mergeOptions('DELETE', options_)
+const delete_ = (url, options_, forceOptions) => {
+  const options = forceOptions ? options_ : mergeOptions('DELETE', options_)
   return fetch(url, options).then(handleResponse).then(response => response)
 }
 
