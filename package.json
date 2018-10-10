@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint src test",
     "test": "babel-node ./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha",
-    "debug": "mocha --compilers js:babel-register --debug-brk",
+    "debug": "mocha --compilers js:babel-register --inspect-brk",
     "test:watch": "mocha --compilers js:babel-register --reporter min --watch",
     "build": "node build/build",
     "preversion": "yarn install; yarn test; yarn build"

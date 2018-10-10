@@ -89,6 +89,37 @@ describe('Client Api', () => {
       }).then(done, done)
     })
 
+    it('should honor rest verb change event if passed as option', done => {
+      const response = {
+        headers: {
+          'content-type': 'my type'
+        }
+      }
+
+      const optionsPassed = {
+        'method': 'POST',
+        'headers': {
+          'Accept': '*/*'
+        },
+        'credentials': 'same-origin'
+      }
+
+      const mergedOptions = {
+        'method': 'GET',
+        'headers': {
+          'Accept': '*/*'
+        },
+        'credentials': 'same-origin'
+      }
+      fetchMock.get('https://test.com/molgenis-test/get-something', response, mergedOptions)
+      const get = api.get('https://test.com/molgenis-test/get-something', optionsPassed, true)
+
+      get.then(res => {
+        assertEquals(res.status, 200)
+        assertDeepEquals(fetchMock.lastOptions('https://test.com/molgenis-test/get-something'), mergedOptions)
+      }).then(done, done)
+    })
+
     it('should return the server response json when content type is json', done => {
       const resultBody = { foo: 'bar' }
       const response = {

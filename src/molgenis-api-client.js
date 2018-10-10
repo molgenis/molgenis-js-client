@@ -49,8 +49,16 @@ const handleResponse = (response) => {
   }
 }
 
-const mergeOptions = (method, options) => {
-  return merge({ method: method }, defaultOptions, options)
+/**
+ * Merges passed options with default options, if force option is set defaults are ignored.
+ * The passed method is always respected, regardless of the force option
+ * @param method, http method to use ( supported are; get, put, post and delete)
+ * @param options, (options to be merged with 'defaultOptions' options)
+ * @param force, ( flag if set to true, default options are ignored, and passed options are merged with 'method' only
+ * @returns object containing merged options
+ */
+const mergeOptions = (method, options, force) => {
+  return force ? { ...options, method: method } : merge({ method: method }, defaultOptions, options)
 }
 
 /**
@@ -71,8 +79,7 @@ const mergeOptions = (method, options) => {
  * defaults to false.
  */
 const get = (url, options_, forceOptions) => {
-  const options = forceOptions ? options_ : mergeOptions('GET', options_)
-  return fetch(url, options).then(handleResponse).then(response => response)
+  return fetch(url, mergeOptions('GET', options_, forceOptions)).then(handleResponse).then(response => response)
 }
 
 /**
@@ -98,8 +105,7 @@ const get = (url, options_, forceOptions) => {
  * defaults to false.
  */
 const post = (url, options_, forceOptions) => {
-  const options = forceOptions ? options_ : mergeOptions('POST', options_)
-  return fetch(url, options).then(handleResponse).then(response => response)
+  return fetch(url, mergeOptions('POST', options_, forceOptions)).then(handleResponse).then(response => response)
 }
 
 /**
@@ -124,8 +130,7 @@ const post = (url, options_, forceOptions) => {
  * @param forceOptions optional boolean if set to true options are not merged by used as passed, defaults to false
  */
 const put = (url, options_, forceOptions) => {
-  const options = forceOptions ? options_ : mergeOptions('PUT', options_)
-  return fetch(url, options).then(handleResponse).then(response => response)
+  return fetch(url, mergeOptions('PUT', options_, forceOptions)).then(handleResponse).then(response => response)
 }
 
 /**
@@ -141,8 +146,7 @@ const put = (url, options_, forceOptions) => {
  * @param forceOptions optional boolean if set to true options are not merged by used as passed, defaults to false
  */
 const delete_ = (url, options_, forceOptions) => {
-  const options = forceOptions ? options_ : mergeOptions('DELETE', options_)
-  return fetch(url, options).then(handleResponse).then(response => response)
+  return fetch(url, mergeOptions('DELETE', options_, forceOptions)).then(handleResponse).then(response => response)
 }
 
 /**
