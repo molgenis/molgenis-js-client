@@ -50,7 +50,7 @@ const handleResponse = (response) => {
 }
 
 const mergeOptions = (method, options) => {
-  return merge({method: method}, defaultOptions, options)
+  return merge({ method: method }, defaultOptions, options)
 }
 
 /**
@@ -166,4 +166,4 @@ const postFile = (url, file) => {
   return fetch(url, options).then(handleResponse).then(response => response)
 }
 
-export default {get, post, put, delete_, postFile}
+export default { get, post, put, delete_, postFile }
