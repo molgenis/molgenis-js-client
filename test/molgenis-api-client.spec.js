@@ -11,6 +11,15 @@ const assertDeepEquals = (actual, expected) => {
   expect(actual).to.deep.equal(expected)
 }
 
+const defaultOptions = {
+  'headers': {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json',
+    'X-Requested-With': 'XMLHttpRequest'
+  },
+  'credentials': 'same-origin'
+}
+
 describe('Client Api', () => {
   describe('get', () => {
     afterEach(fetchMock.restore)
@@ -25,7 +34,90 @@ describe('Client Api', () => {
       fetchMock.get('https://test.com/molgenis-test/get-something', response)
       const get = api.get('https://test.com/molgenis-test/get-something')
 
-      get.then(res => assertEquals(res.status, 200)).then(done)
+      get.then(res => {
+        assertEquals(res.status, 200)
+        const options = { 'method': 'GET', ...defaultOptions }
+        assertDeepEquals(fetchMock.lastOptions('https://test.com/molgenis-test/get-something'), options)
+      }).then(done, done)
+    })
+
+    it('should return merge the passed options with the default options', done => {
+      const response = {
+        headers: {
+          'content-type': 'my type'
+        }
+      }
+
+      const options = {
+        'method': 'GET',
+        'headers': {
+          'Accept': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+        'credentials': 'same-origin'
+      }
+      fetchMock.get('https://test.com/molgenis-test/get-something', response, options)
+      const get = api.get('https://test.com/molgenis-test/get-something', options)
+
+      get.then(res => {
+        assertEquals(res.status, 200)
+        const expectedOptions = { 'method': 'GET', ...defaultOptions }
+        assertDeepEquals(fetchMock.lastOptions('https://test.com/molgenis-test/get-something'), expectedOptions)
+      }).then(done, done)
+    })
+
+    it('should NOT merge the passed options with the default options when forceOptions flag is set', done => {
+      const response = {
+        headers: {
+          'content-type': 'my type'
+        }
+      }
+
+      const options = {
+        'method': 'GET',
+        'headers': {
+          'Accept': '*/*'
+        },
+        'credentials': 'same-origin'
+      }
+      fetchMock.get('https://test.com/molgenis-test/get-something', response, options)
+      const get = api.get('https://test.com/molgenis-test/get-something', options, true)
+
+      get.then(res => {
+        assertEquals(res.status, 200)
+        assertDeepEquals(fetchMock.lastOptions('https://test.com/molgenis-test/get-something'), options)
+      }).then(done, done)
+    })
+
+    it('should honor rest verb change event if passed as option', done => {
+      const response = {
+        headers: {
+          'content-type': 'my type'
+        }
+      }
+
+      const optionsPassed = {
+        'method': 'POST',
+        'headers': {
+          'Accept': '*/*'
+        },
+        'credentials': 'same-origin'
+      }
+
+      const mergedOptions = {
+        'method': 'GET',
+        'headers': {
+          'Accept': '*/*'
+        },
+        'credentials': 'same-origin'
+      }
+      fetchMock.get('https://test.com/molgenis-test/get-something', response, mergedOptions)
+      const get = api.get('https://test.com/molgenis-test/get-something', optionsPassed, true)
+
+      get.then(res => {
+        assertEquals(res.status, 200)
+        assertDeepEquals(fetchMock.lastOptions('https://test.com/molgenis-test/get-something'), mergedOptions)
+      }).then(done, done)
     })
 
     it('should return the server response json when content type is json', done => {
@@ -137,6 +229,29 @@ describe('Client Api', () => {
 
       post.catch(res => assertDeepEquals(res, { errors: [{ message: 'its an error' }] })).then(done)
     })
+
+    it('should NOT merge the passed options with the default options when forceOptions flag is set', done => {
+      const response = {
+        headers: {
+          'content-type': 'my type'
+        }
+      }
+
+      const options = {
+        'method': 'POST',
+        'headers': {
+          'Accept': '*/*'
+        },
+        'credentials': 'same-origin'
+      }
+      fetchMock.post('https://test.com/molgenis-test/post-something', response, options)
+      const post = api.post('https://test.com/molgenis-test/post-something', options, true)
+
+      post.then(res => {
+        assertEquals(res.status, 200)
+        assertDeepEquals(fetchMock.lastOptions('https://test.com/molgenis-test/post-something'), options)
+      }).then(done, done)
+    })
   })
 
   describe('put', () => {
@@ -176,6 +291,29 @@ describe('Client Api', () => {
 
       put.catch(res => assertDeepEquals(res, { errors: [{ message: 'its an error' }] })).then(done)
     })
+
+    it('should NOT merge the passed options with the default options when forceOptions flag is set', done => {
+      const response = {
+        headers: {
+          'content-type': 'my type'
+        }
+      }
+
+      const options = {
+        'method': 'PUT',
+        'headers': {
+          'Accept': '*/*'
+        },
+        'credentials': 'same-origin'
+      }
+      fetchMock.put('https://test.com/molgenis-test/put-something', response, options)
+      const put = api.put('https://test.com/molgenis-test/put-something', options, true)
+
+      put.then(res => {
+        assertEquals(res.status, 200)
+        assertDeepEquals(fetchMock.lastOptions('https://test.com/molgenis-test/put-something'), options)
+      }).then(done, done)
+    })
   })
 
   describe('delete', () => {
@@ -205,6 +343,29 @@ describe('Client Api', () => {
       const delete_ = api.delete_('https://test.com/molgenis-test/delete-something-not-ok')
 
       delete_.catch(res => assertDeepEquals(res, { errors: [{ message: 'its an error' }] })).then(done)
+    })
+
+    it('should NOT merge the passed options with the default options when forceOptions flag is set', done => {
+      const response = {
+        headers: {
+          'content-type': 'my type'
+        }
+      }
+
+      const options = {
+        'method': 'DELETE',
+        'headers': {
+          'Accept': '*/*'
+        },
+        'credentials': 'same-origin'
+      }
+      fetchMock.delete('https://test.com/molgenis-test/delete-something', response, options)
+      const delete_ = api.delete_('https://test.com/molgenis-test/delete-something', options, true)
+
+      delete_.then(res => {
+        assertEquals(res.status, 200)
+        assertDeepEquals(fetchMock.lastOptions('https://test.com/molgenis-test/delete-something'), options)
+      }).then(done, done)
     })
   })
 

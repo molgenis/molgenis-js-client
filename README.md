@@ -74,6 +74,10 @@ const options = {
 }
 
 post('api/v2/PostData', options).then(response => {...}, error => {...})
+
+const forceOptions = true
+// options not merged with defaults
+post('api/v2/PostData', options, forceOptions).then(response => {...}, error => {...}) 
 ```
 __PUT__ examples
 
@@ -115,7 +119,7 @@ Methods
 Options
 -------
 
-The options object that can be supplied to different API methods can contain the following parameters
+The options object that can be supplied to different API methods can contain the following parameters.
 
 | Parameter | Description | Default value |
 |-----------|-------------|---------------|
@@ -127,6 +131,22 @@ The options object that can be supplied to different API methods can contain the
 | redirect | What to do on redirect. `follow, error, manual` | error |
 | integrity | subresource integrity value | undefined |
 | cache | cache mode `default, reload, no-cache` | undefined |
+
+
+ForceOptions
+---------
+By default the passed options get merged with the default options.
+If you do not want to merge with the default options, but instead set all the options yourself,
+setting the forceOptions flag to true forces the passed options to be used as is.
+
+forceOptions defaults to false
+
+example:
+```
+ const forceOptions = true
+ const options = { some: 'options'}
+ post('api/v2/PostData', options, forceOptions)
+ ```
 
 Browser compatibility
 ---------------------
