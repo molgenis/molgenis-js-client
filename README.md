@@ -70,7 +70,7 @@ const data = {
 }
 
 const options = {
-  'body': data
+  'body': JSON.stringify(data)
 }
 
 post('api/v2/PostData', options).then(response => {...}, error => {...})
