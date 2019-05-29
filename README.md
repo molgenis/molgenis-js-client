@@ -1,4 +1,7 @@
-molgenis-api-client
+[![codecov](https://codecov.io/gh/molgenis/molgenis-js-i18n/branch/master/graph/badge.svg)](https://codecov.io/gh/molgenis/molgenis-js-i18n)
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+
+molgenis-js-client
 -------------------
 A javascript wrapper around the [isomorphic-fetch](https://github.com/matthew-andrews/isomorphic-fetch) API.
 Simplifies using REST api's by abstracting get, post, and delete and providing default options.
@@ -181,3 +184,30 @@ To lint: `yarn lint`
 To debug:
  first add node-inspector: `npm install -g node-inspector`
  then run: `yarn debug`
+
+## Development
+`yarn dev` to run dev server during development.
+
+`yarn test` to run tests.
+
+`yarn build` to create new production build.
+
+### How to commit
+We use conventional commits to generate changelogs and release notes. Please check: https://www.conventionalcommits.org/
+
+**Example**
+```
+git commit file.ext -m "fix(file.ext): fixes something"
+```
+
+### How to publish
+Each time a PR is merged a release will be done to NPM. The CHANGELOG.md and GitHub release will be ammended. 
+
+The version of the package is based upon convential commits. Check: http://commitizen.github.io/cz-cli/.
+
+## Changelog
+Details changes for each release are documented in the [CHANGELOG.md](https://github.com/molgenis/molgenis-js-client/blob/master/CHANGELOG.md).
+
+### License
+
+[LGPL-3.0](http://opensource.org/licenses/LGPL-3.0)
