@@ -10,14 +10,18 @@
     "test:watch": "mocha --compilers js:babel-register --reporter min --watch",
     "build": "node build/build",
     "preversion": "yarn install; yarn test",
-    "postversion": "yarn build"    
+    "postversion": "yarn build"
   },
   "release": {
     "plugins": [
       "@semantic-release/commit-analyzer",
       "@semantic-release/release-notes-generator",
-      [ "@semantic-release/changelog",
-          {"changelogFile": "CHANGELOG.md" } ],
+      [
+        "@semantic-release/changelog",
+        {
+          "changelogFile": "CHANGELOG.md"
+        }
+      ],
       "@semantic-release/npm",
       "@semantic-release/git",
       "@semantic-release/github"
@@ -43,6 +47,8 @@
     "lodash": "^4.17.4"
   },
   "devDependencies": {
+    "@semantic-release/changelog": "^3.0.2",
+    "@semantic-release/git": "^7.0.8",
     "babel-cli": "^6.16.0",
     "babel-core": "^6.17.0",
     "babel-eslint": "^7.0.0",
@@ -64,6 +70,7 @@
     "mocha": "^3.1.2",
     "rollup": "^0.36.3",
     "rollup-plugin-babel": "^2.6.1",
+    "semantic-release": "^15.13.12",
     "sinon": "^2.0.0-pre.3"
   },
   "babel": {
