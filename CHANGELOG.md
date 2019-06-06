@@ -1,3 +1,10 @@
+## [3.1.2](https://github.com/molgenis/molgenis-api-client/compare/v3.1.1...v3.1.2) (2019-06-06)
+
+
+### Bug Fixes
+
+* fix broken build ([1aec824](https://github.com/molgenis/molgenis-api-client/commit/1aec824))
+
 ## [3.1.1](https://github.com/molgenis/molgenis-api-client/compare/v3.1.0...v3.1.1) (2019-05-31)
 
 
