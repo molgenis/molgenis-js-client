@@ -1,3 +1,10 @@
+## [3.1.3](https://github.com/molgenis/molgenis-api-client/compare/v3.1.2...v3.1.3) (2019-06-07)
+
+
+### Bug Fixes
+
+* set unsafe-perm to true to allow root user to build and release ([17f2ea1](https://github.com/molgenis/molgenis-api-client/commit/17f2ea1))
+
 ## [3.1.2](https://github.com/molgenis/molgenis-api-client/compare/v3.1.1...v3.1.2) (2019-06-06)
 
 
