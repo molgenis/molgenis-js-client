@@ -1,16 +1,81 @@
 {
-  "name": "@molgenis/molgenis-api-client",
-  "version": "3.1.3",
+  "name": "@molgenis/molgenis-js-client",
+  "version": "1.0.0",
   "description": "A javascript client for the molgenis api",
-  "main": "dist/molgenis-api-client.es.js",
+  "main": "dist/molgenis-js-client.umd.js",
+  "module": "dist/molgenis-js-client.es5.js",
+  "typings": "dist/types/molgenis-js-client.d.ts",
+  "files": [
+    "dist"
+  ],
+  "author": "MOLGENIS Team, System Genetics, UMCG, Netherlands",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:molgenis/molgenis-api-client.git"
+  },
+  "license": "LGPL-3.0",
+  "engines": {
+    "node": ">=6.0.0"
+  },
   "scripts": {
-    "lint": "eslint src test",
-    "test": "babel-node ./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha",
-    "debug": "mocha --compilers js:babel-register --inspect-brk",
-    "test:watch": "mocha --compilers js:babel-register --reporter min --watch",
-    "build": "node build/build",
-    "preversion": "yarn install; yarn test",
-    "postversion": "yarn build"
+    "lint": "tslint  --project tsconfig.json -t codeFrame 'src/**/*.ts' 'test/**/*.ts'",
+    "prebuild": "rimraf dist",
+    "build": "tsc --module commonjs && rollup -c rollup.config.ts && typedoc --out docs --target es6 --theme minimal --mode file src",
+    "start": "rollup -c rollup.config.ts -w",
+    "test": "jest --coverage",
+    "test:watch": "jest --coverage --watch",
+    "test:prod": "yarn run lint && yarn run test -- --no-cache",
+    "report-coverage": "cat ./coverage/lcov.info | coveralls",
+    "commit": "git-cz",
+    "semantic-release": "semantic-release",
+    "semantic-release-prepare": "ts-node tools/semantic-release-prepare"
+  },
+  "lint-staged": {
+    "{src,test}/**/*.ts": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-conventional-changelog"
+    }
+  },
+  "jest": {
+    "transform": {
+      ".(ts|tsx)": "ts-jest"
+    },
+    "testEnvironment": "node",
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/test/"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 90,
+        "functions": 95,
+        "lines": 95,
+        "statements": 95
+      }
+    },
+    "collectCoverageFrom": [
+      "src/*.{js,ts}"
+    ]
+  },
+  "prettier": {
+    "semi": false,
+    "singleQuote": true
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
   },
   "release": {
     "plugins": [
@@ -31,55 +96,66 @@
     "access": "public",
     "registry": "http://registry.npmjs.org"
   },
-  "repository": "git@github.com:molgenis/molgenis-api-client.git",
   "keywords": [
     "molgenis",
     "api",
     "rest",
     "fetch"
   ],
-  "author": "MOLGENIS Team, System Genetics, UMCG, Netherlands",
-  "license": "LGPL-3.0",
-  "dependencies": {
-    "babel-runtime": "^6.26.0",
-    "form-data": "^2.3.1",
-    "isomorphic-fetch": "^2.2.1",
-    "lodash": "^4.17.4"
-  },
   "devDependencies": {
-    "@semantic-release/changelog": "^3.0.2",
-    "@semantic-release/git": "^7.0.8",
-    "babel-cli": "^6.16.0",
-    "babel-core": "^6.17.0",
-    "babel-eslint": "^7.0.0",
-    "babel-plugin-transform-runtime": "^6.15.0",
-    "babel-preset-latest": "^6.16.0",
-    "babel-preset-stage-2": "^6.16.0",
-    "babel-register": "^6.16.3",
-    "chai": "^4.0.0-canary.1",
-    "coveralls": "^2.11.14",
-    "del": "^2.2.2",
-    "eslint": "^5.6.0",
-    "eslint-config-standard": "^12.0.0",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-node": "^7.0.1",
-    "eslint-plugin-promise": "^4.0.1",
-    "eslint-plugin-standard": "^4.0.0",
-    "fetch-mock": "^5.12.1",
-    "istanbul": "^1.1.0-alpha.1",
-    "mocha": "^3.1.2",
-    "rollup": "^0.36.3",
-    "rollup-plugin-babel": "^2.6.1",
-    "semantic-release": "^15.13.12",
-    "sinon": "^2.0.0-pre.3"
+    "@commitlint/cli": "^7.1.2",
+    "@commitlint/config-conventional": "^7.1.2",
+    "@types/isomorphic-fetch": "0.0.35",
+    "@types/jest": "^23.3.2",
+    "@types/node": "^10.11.0",
+    "@types/whatwg-mimetype": "^2.1.0",
+    "colors": "^1.3.2",
+    "commitizen": "^3.0.0",
+    "coveralls": "^3.0.2",
+    "cross-env": "^5.2.0",
+    "cz-conventional-changelog": "^2.1.0",
+    "husky": "^1.0.1",
+    "jest": "^23.6.0",
+    "jest-config": "^23.6.0",
+    "jest-fetch-mock": "^2.1.2",
+    "lint-staged": "^8.0.0",
+    "lodash.camelcase": "^4.3.0",
+    "prettier": "^1.14.3",
+    "prompt": "^1.0.0",
+    "replace-in-file": "^3.4.2",
+    "rimraf": "^2.6.2",
+    "rollup": "^0.67.0",
+    "rollup-plugin-commonjs": "^9.1.8",
+    "rollup-plugin-json": "^3.1.0",
+    "rollup-plugin-node-resolve": "^3.4.0",
+    "rollup-plugin-sourcemaps": "^0.4.2",
+    "rollup-plugin-typescript2": "^0.18.0",
+    "semantic-release": "^15.9.16",
+    "shelljs": "^0.8.3",
+    "ts-jest": "^23.10.2",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.11.0",
+    "tslint-config-prettier": "^1.15.0",
+    "tslint-config-standard": "^8.0.1",
+    "typedoc": "^0.12.0",
+    "typescript": "^3.0.3"
+  },
+  "dependencies": {
+    "cross-fetch": "^3.0.4"
   },
   "babel": {
     "presets": [
-      "latest",
-      "stage-2"
+      "@babel/env",
+      "@babel/typescript"
     ],
     "plugins": [
-      "transform-runtime"
+      "@babel/proposal-class-properties",
+      "@babel/proposal-object-rest-spread"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   }
 }
