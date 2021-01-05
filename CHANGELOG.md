@@ -1,3 +1,10 @@
+## [3.1.4](https://github.com/molgenis/molgenis-api-client/compare/v3.1.3...v3.1.4) (2021-01-05)
+
+
+### Bug Fixes
+
+* bump babel-cli ([d2be3de](https://github.com/molgenis/molgenis-api-client/commit/d2be3de))
+
 ## [3.1.3](https://github.com/molgenis/molgenis-api-client/compare/v3.1.2...v3.1.3) (2019-06-07)
 
 
