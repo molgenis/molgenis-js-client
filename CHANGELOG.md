@@ -31,3 +31,4 @@ releasing 3.1.0 ensured breaking 3.0 changes are combined with 2.3.0 features.
 <a name="2.3.0"></a>
 ## pre 2.3.0
 * Javascript client for molgenis. get, post, put, delete_ and postFile functions to interact with backend
+ 
