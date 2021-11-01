@@ -316,6 +316,68 @@ describe('Client Api', () => {
     })
   })
 
+  describe('patch', () => {
+    afterEach(fetchMock.restore)
+
+    const data = {
+      items: ['1', '2'],
+      status: 'SUCCESS'
+    }
+
+    const options = {
+      body: JSON.stringify(data)
+    }
+
+    it('should return server status OK when patch is successful', done => {
+      fetchMock.patch('https://test.com/molgenis-test/patch-something', 200)
+      const patch = api.patch('https://test.com/molgenis-test/patch-something', options)
+
+      patch.then(res => assertEquals(res.status, 200)).then(done)
+    })
+
+    it('should return an error when patch failed', done => {
+      const resultBody = {
+        errors: [{ message: 'its an error' }]
+      }
+
+      const response = {
+        status: 400,
+        headers: {
+          'content-type': 'application/json'
+        },
+        body: resultBody
+      }
+
+      fetchMock.patch('https://test.com/molgenis-test/patch-something-not-ok', response)
+      const patch = api.patch('https://test.com/molgenis-test/patch-something-not-ok', options)
+
+      patch.catch(res => assertDeepEquals(res, { errors: [{ message: 'its an error' }] })).then(done)
+    })
+
+    it('should NOT merge the passed options with the default options when forceOptions flag is set', done => {
+      const response = {
+        headers: {
+          'content-type': 'my type'
+        }
+      }
+
+      const options = {
+        'method': 'PATCH',
+        'headers': {
+          'Accept': '*/*'
+        },
+        'credentials': 'same-origin'
+      }
+      fetchMock.patch('https://test.com/molgenis-test/patch-something', response, options)
+      const patch = api.patch('https://test.com/molgenis-test/patch-something', options, true)
+
+      patch.then(res => {
+        assertEquals(res.status, 200)
+        assertDeepEquals(fetchMock.lastOptions('https://test.com/molgenis-test/patch-something'), options)
+      }).then(done, done)
+    })
+  })
+
   describe('delete', () => {
     afterEach(fetchMock.restore)
 
