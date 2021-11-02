@@ -47,8 +47,8 @@
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "@semantic-release/changelog": "^3.0.2",
-    "@semantic-release/git": "^7.0.8",
+    "@semantic-release/changelog": "^5.0.1",
+    "@semantic-release/git": "^9.0.1",
     "babel-cli": "6.26.0",
     "babel-core": "^6.17.0",
     "babel-eslint": "^7.0.0",
@@ -70,7 +70,7 @@
     "mocha": "^3.1.2",
     "rollup": "^0.36.3",
     "rollup-plugin-babel": "^2.6.1",
-    "semantic-release": "^17.2.3",
+    "semantic-release": "^17.5.7",
     "sinon": "^2.0.0-pre.3"
   },
   "babel": {
