@@ -1,3 +1,24 @@
+# [3.2.0](https://github.com/molgenis/molgenis-js-client/compare/v3.1.3...v3.2.0) (2021-11-02)
+
+
+### Bug Fixes
+
+* bump babel-cli ([d2be3de](https://github.com/molgenis/molgenis-js-client/commit/d2be3de))
+* codecov token ([48f1aa1](https://github.com/molgenis/molgenis-js-client/commit/48f1aa1))
+* http(s) for npm ([c6bf536](https://github.com/molgenis/molgenis-js-client/commit/c6bf536))
+* permissions on yarn.lock ([49f6db1](https://github.com/molgenis/molgenis-js-client/commit/49f6db1))
+* trigger release ([b38cd77](https://github.com/molgenis/molgenis-js-client/commit/b38cd77))
+* update repo url to 'https' and to the right repo ([1a9f849](https://github.com/molgenis/molgenis-js-client/commit/1a9f849))
+* updated all vulnerable packages ([#69](https://github.com/molgenis/molgenis-js-client/issues/69)) ([2e05030](https://github.com/molgenis/molgenis-js-client/commit/2e05030))
+* updated semantic release ([5488d49](https://github.com/molgenis/molgenis-js-client/commit/5488d49))
+* version number was behind ([931e558](https://github.com/molgenis/molgenis-js-client/commit/931e558))
+* version of semantic release ([54ca59f](https://github.com/molgenis/molgenis-js-client/commit/54ca59f))
+
+
+### Features
+
+* added patch as method ([5d365f6](https://github.com/molgenis/molgenis-js-client/commit/5d365f6))
+
 ## [3.1.3](https://github.com/molgenis/molgenis-api-client/compare/v3.1.2...v3.1.3) (2019-06-07)
 
 
