@@ -31,7 +31,7 @@
     "access": "public",
     "registry": "https://registry.npmjs.org"
   },
-  "repository": "git@github.com:molgenis/molgenis-api-client.git",
+  "repository": "https://github.com/molgenis/molgenis-js-client.git",
   "keywords": [
     "molgenis",
     "api",
